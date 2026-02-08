@@ -1,17 +1,13 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Public_Sans } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 
 import './globals.css';
 
-const geistSans = Geist({
-	variable: '--font-geist-sans',
+const publicSans = Public_Sans({
+	variable: '--font-public-sans',
 	subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
-	subsets: ['latin'],
+	display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -27,9 +23,7 @@ export default function RootLayout({
 	return (
 		<ClerkProvider>
 			<html lang='en'>
-				<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-					{children}
-				</body>
+				<body className={`${publicSans.variable}  antialiased`}>{children}</body>
 			</html>
 		</ClerkProvider>
 	);
