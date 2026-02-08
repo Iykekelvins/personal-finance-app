@@ -71,6 +71,7 @@ const SignUp = () => {
 			await signUp?.create({
 				emailAddress: values.email,
 				password: values.password,
+				firstName: values.name,
 			});
 
 			await signUp?.prepareEmailAddressVerification({
