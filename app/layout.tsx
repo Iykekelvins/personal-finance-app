@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Public_Sans } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
+import { Toaster } from '@/components/ui/sonner';
 
 import './globals.css';
 
@@ -26,7 +27,10 @@ export default function RootLayout({
 	return (
 		<ClerkProvider>
 			<html lang='en'>
-				<body className={`${publicSans.variable}  antialiased`}>{children}</body>
+				<body className={`${publicSans.variable}  antialiased`}>
+					{children}
+					<Toaster position='top-center' theme='dark' richColors />
+				</body>
 			</html>
 		</ClerkProvider>
 	);
