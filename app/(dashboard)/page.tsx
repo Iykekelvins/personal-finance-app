@@ -2,6 +2,7 @@ import { currentUser } from '@clerk/nextjs/server';
 
 import connectDB from '@/lib/db';
 import User from '@/models/users';
+import Overview from '@/_pages/dashboard/overview';
 
 export default async function Home() {
 	await connectDB();
@@ -20,5 +21,5 @@ export default async function Home() {
 		dbUser = newUser.toObject();
 	}
 
-	return <div>home</div>;
+	return <Overview />;
 }

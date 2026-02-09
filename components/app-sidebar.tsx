@@ -22,7 +22,7 @@ const SIDEBARLINKS = [
 	},
 	{
 		name: 'Transactions',
-		href: '/ransactions',
+		href: '/transactions',
 		icon: <Transactions />,
 	},
 	{
