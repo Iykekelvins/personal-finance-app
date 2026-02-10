@@ -9,7 +9,9 @@ export default function DashboardLayout({
 	return (
 		<SidebarProvider>
 			<AppSidebar />
-			<main>{children}</main>
+			<main className='flex-1'>
+				<div className='max-w-7xl mx-auto'>{children}</div>
+			</main>
 		</SidebarProvider>
 	);
 }

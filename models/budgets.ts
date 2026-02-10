@@ -1,3 +1,4 @@
+import { CATEGORIES } from '@/lib/constants';
 import mongoose from 'mongoose';
 
 const budgetSchema = new mongoose.Schema(
@@ -5,18 +6,7 @@ const budgetSchema = new mongoose.Schema(
 		userClerkId: { type: String },
 		category: {
 			type: String,
-			enum: [
-				'Entertainment',
-				'Bills',
-				'Groceries',
-				'Dining Out',
-				'Transportation',
-				'Personal Care',
-				'Education',
-				'Lifestyle',
-				'Shopping',
-				'General',
-			],
+			enum: CATEGORIES,
 		},
 		maximum: { type: Number },
 		theme: { type: String },
