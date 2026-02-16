@@ -1,7 +1,13 @@
-import React from 'react';
+import PotList from './pot-list';
+import AddPot from './add-pot';
 
 const Pots = () => {
-	return <div>Pots</div>;
+	return (
+		<div className='py-400 px-500'>
+			<AddPot />
+			<PotList />
+		</div>
+	);
 };
 
 export default Pots;

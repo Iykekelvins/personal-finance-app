@@ -28,11 +28,11 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { CATEGORIES, THEMES } from '@/lib/constants';
+import { handleError } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { CATEGORIES, THEMES } from '@/lib/constants';
-import { handleError } from '@/lib/utils';
 
 const budgetFormSchema = z.object({
 	category: z.string().min(1, { message: "can't be empty" }),
