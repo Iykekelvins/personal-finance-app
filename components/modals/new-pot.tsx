@@ -31,7 +31,7 @@ import { THEMES } from '@/lib/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { createPot } from '@/actions/pots';
+import { createPot, editPot } from '@/actions/pots';
 import { capitalizeWords } from '@/lib/utils';
 
 const potFormSchema = z.object({
@@ -65,6 +65,20 @@ export default function NewPot({
 					toast.error(res?.error);
 				} else {
 					toast.success('Pot created successfully');
+					onClose();
+					form.reset();
+				}
+			} else {
+				const res = await editPot({
+					...values,
+					_id: pot._id,
+					target: +values.target,
+				});
+
+				if (!res.success) {
+					toast.error(res?.error);
+				} else {
+					toast.success('Pot edited successfully');
 					onClose();
 					form.reset();
 				}

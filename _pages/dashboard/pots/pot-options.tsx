@@ -7,7 +7,13 @@ import { PopoverContent } from '@/components/ui/popover';
 import NewPot from '@/components/modals/new-pot';
 import DeletePot from '@/components/modals/delete-pot';
 
-export default function PotOptions({ pot }: { pot: PotProps }) {
+export default function PotOptions({
+	pot,
+	setOpenPotOptions,
+}: {
+	pot: PotProps;
+	setOpenPotOptions: (e: boolean) => void;
+}) {
 	const [openEditPotModal, setOpenEditPotModal] = useState(false);
 	const [openDeletePotModal, setOpenDeletePotModal] = useState(false);
 
@@ -21,7 +27,13 @@ export default function PotOptions({ pot }: { pot: PotProps }) {
 						Edit Pot
 					</button>
 				</DialogTrigger>
-				<NewPot pot={pot} onClose={() => setOpenEditPotModal(false)} />
+				<NewPot
+					pot={pot}
+					onClose={() => {
+						setOpenEditPotModal(false);
+						setOpenPotOptions(false);
+					}}
+				/>
 			</Dialog>
 			<Dialog open={openDeletePotModal} onOpenChange={setOpenDeletePotModal}>
 				<DialogTrigger asChild>
@@ -29,7 +41,13 @@ export default function PotOptions({ pot }: { pot: PotProps }) {
 						Delete Pot
 					</button>
 				</DialogTrigger>
-				<DeletePot pot={pot} onClose={() => setOpenDeletePotModal(false)} />
+				<DeletePot
+					pot={pot}
+					onClose={() => {
+						setOpenDeletePotModal(false);
+						setOpenPotOptions(false);
+					}}
+				/>
 			</Dialog>
 		</PopoverContent>
 	);

@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Popover, PopoverTrigger } from '@/components/ui/popover';
 import { Ellipsis } from 'lucide-react';
 import { THEMES } from '@/lib/constants';
@@ -6,8 +9,9 @@ import PotOptions from './pot-options';
 
 export default function Pot({ pot }: { pot: PotProps }) {
 	const color = THEMES.find((t) => t.name === pot.theme)?.color;
-
 	const totalSaved = ((pot?.total as number) / pot.target) * 100;
+
+	const [openPotOptions, setOpenPotOptions] = useState(false);
 
 	return (
 		<div className='bg-white rounded-150 p-300'>
@@ -22,13 +26,13 @@ export default function Pot({ pot }: { pot: PotProps }) {
 					<span className='text-preset-2 font-bold capitalize'>{pot.name}</span>
 				</h2>
 
-				<Popover>
+				<Popover open={openPotOptions} onOpenChange={setOpenPotOptions}>
 					<PopoverTrigger asChild>
 						<button>
 							<Ellipsis className='text-grey-300' />
 						</button>
 					</PopoverTrigger>
-					<PotOptions pot={pot} />
+					<PotOptions pot={pot} setOpenPotOptions={setOpenPotOptions} />
 				</Popover>
 			</div>
 

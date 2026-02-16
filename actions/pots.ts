@@ -57,12 +57,66 @@ export async function createPot(pot: PotProps) {
 
 		return {
 			success: true,
-			message: 'Pot created successfully',
 			status: 201,
 		};
 	} catch (error) {
 		console.error('Error creating pot', error);
 		return { success: false, error: 'Failed to create pot' };
+	}
+}
+
+export async function editPot(pot: PotProps) {
+	try {
+		const { userId } = await auth();
+
+		if (!userId) {
+			return UNATHORIZED;
+		}
+
+		await connectDB();
+
+		const { name, target, theme } = pot;
+
+		if (!name.trim() || !target || !theme) {
+			return {
+				success: false,
+				error: 'Missing name, target or theme',
+				status: 400,
+			};
+		}
+
+		const potExists = await Pot.findOne({
+			userClerkId: userId,
+			name: name.trim().toLowerCase(),
+			_id: { $ne: pot._id },
+		});
+
+		if (potExists) {
+			return {
+				success: false,
+				error: 'You already have this pot',
+				status: 400,
+			};
+		}
+
+		await Pot.findOneAndUpdate(
+			{ _id: pot._id, userClerkId: userId },
+			{
+				name: name.trim().toLowerCase(),
+				target: Number(target),
+				theme,
+			},
+		);
+
+		revalidatePath('/pots');
+
+		return {
+			success: true,
+			status: 201,
+		};
+	} catch (error) {
+		console.error('Error editing pot', error);
+		return { success: false, error: 'Failed to edit pot' };
 	}
 }
 
