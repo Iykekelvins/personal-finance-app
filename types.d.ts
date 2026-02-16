@@ -1,8 +1,8 @@
 type PotProps = {
-	_id: string;
-	userClerkId: string;
 	name: string;
 	target: number;
-	total: number;
 	theme: string;
+	_id?: string;
+	total?: number;
+	userClerkId?: string;
 };

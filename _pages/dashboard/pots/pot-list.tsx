@@ -10,7 +10,7 @@ export default async function PotList() {
 	return (
 		<ul className='mt-200 grid des:grid-cols-2 gap-300'>
 			{pots?.map((pot) => (
-				<PotComp key={pot._id} {...pot.toObject()} />
+				<PotComp key={pot._id} pot={JSON.parse(JSON.stringify(pot))} />
 			))}
 		</ul>
 	);

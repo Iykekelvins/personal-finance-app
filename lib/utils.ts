@@ -10,3 +10,7 @@ export function handleError(error: unknown) {
 	const errorMessage = error instanceof Error ? error.message : 'An error occurred';
 	toast.error(errorMessage);
 }
+
+export function capitalizeWords(value: string): string {
+	return value.replace(/\b\w/g, (c) => c.toUpperCase());
+}

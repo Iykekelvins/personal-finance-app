@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
 	DialogContent,
@@ -27,11 +28,11 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { THEMES } from '@/lib/constants';
-import { handleError } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useEffect } from 'react';
+import { createPot } from '@/actions/pots';
+import { capitalizeWords } from '@/lib/utils';
 
 const potFormSchema = z.object({
 	name: z.string().min(1, { message: "can't be empty" }).max(30),
@@ -57,28 +58,19 @@ export default function NewPot({
 
 	async function onSubmit(values: z.infer<typeof potFormSchema>) {
 		try {
-			const response = await fetch('/api/pots', {
-				method: 'POST',
-				headers: {
-					'content-type': 'application/json',
-				},
-				body: JSON.stringify({
-					...values,
-					target: +values.target,
-				}),
-			});
+			if (!pot) {
+				const res = await createPot({ ...values, target: +values.target });
 
-			const data = await response.json();
-
-			if (response.ok) {
-				toast.success(data?.message);
-				onClose();
-				form.reset();
-			} else {
-				toast.error(data?.message);
+				if (!res.success) {
+					toast.error(res?.error);
+				} else {
+					toast.success('Pot created successfully');
+					onClose();
+					form.reset();
+				}
 			}
 		} catch (error) {
-			handleError(error);
+			console.error(error);
 		}
 	}
 
@@ -86,11 +78,17 @@ export default function NewPot({
 		if (!pot) return;
 
 		form.reset({
-			name: pot.name,
+			name: capitalizeWords(pot.name),
 			target: pot.target.toString(),
 			theme: pot.theme,
 		});
 	}, [pot, form]);
+
+	useEffect(() => {
+		return () => {
+			form.reset();
+		};
+	}, [form]);
 
 	return (
 		<DialogContent>
@@ -173,7 +171,7 @@ export default function NewPot({
 					/>
 					<Button className='w-full' disabled={form.formState.isSubmitting}>
 						{form.formState.isSubmitting && <Spinner />}
-						Add Pot
+						{!pot ? 'Add Pot' : 'Save Changes'}
 					</Button>
 				</form>
 			</Form>
