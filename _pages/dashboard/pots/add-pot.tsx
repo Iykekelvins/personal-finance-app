@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
-import NewPot from '@/components/modals/new-pot';
+import NewPot from '@/components/modals/pots/new-pot';
 
 export default function AddPot() {
 	const [openNewPotModal, setOpenNewPotModal] = useState(false);

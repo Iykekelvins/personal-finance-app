@@ -7,8 +7,8 @@ import {
 	DialogDescription,
 	DialogHeader,
 	DialogTitle,
-} from '../ui/dialog';
-import { Button } from '../ui/button';
+} from '../../ui/dialog';
+import { Button } from '../../ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import {
 	Form,

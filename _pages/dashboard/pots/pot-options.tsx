@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { PopoverContent } from '@/components/ui/popover';
 
-import NewPot from '@/components/modals/new-pot';
-import DeletePot from '@/components/modals/delete-pot';
+import NewPot from '@/components/modals/pots/new-pot';
+import DeletePot from '@/components/modals/pots/delete-pot';
 
 export default function PotOptions({
 	pot,

@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '../ui/button';
-import { DialogContent, DialogDescription, DialogTitle } from '../ui/dialog';
-import { Spinner } from '../ui/spinner';
+import { Button } from '../../ui/button';
+import { DialogContent, DialogDescription, DialogTitle } from '../../ui/dialog';
+import { Spinner } from '../../ui/spinner';
 import { deletePot } from '@/actions/pots';
 import { toast } from 'sonner';
 
