@@ -179,6 +179,60 @@ export async function addMoneyToPot({
 	}
 }
 
+export async function withdrawMoneyFromPot({
+	_id,
+	amount,
+}: {
+	_id: string;
+	amount: number;
+}) {
+	try {
+		const { userId } = await auth();
+
+		if (!userId) {
+			return UNATHORIZED;
+		}
+
+		await connectDB();
+
+		const wallet = await Wallet.findOne({ userClerkId: userId }).lean();
+
+		const pot = await Pot.findOne({ _id, userClerkId: userId }).lean();
+
+		if (amount > pot.total) {
+			return {
+				success: false,
+				status: 400,
+				error: 'You cannot withdraw more than your total',
+			};
+		}
+
+		await Pot.findOneAndUpdate(
+			{ _id, userClerkId: userId },
+			{
+				total: (pot.total -= amount),
+			},
+		);
+
+		await Wallet.findOneAndUpdate(
+			{ userClerkId: userId },
+			{
+				balance: (wallet.balance += amount),
+			},
+		);
+
+		revalidatePath('/pots');
+
+		return {
+			success: true,
+			status: 200,
+		};
+	} catch (error) {
+		console.error('Error withdrawing money from pot', error);
+		return { success: false, error: 'Failed to withdraw money from pot' };
+	}
+}
+
 export async function deletePot(id: string) {
 	try {
 		const { userId } = await auth();
@@ -201,6 +255,15 @@ export async function deletePot(id: string) {
 				status: 404,
 			};
 		}
+
+		const wallet = await Wallet.findOne({ userClerkId: userId }).lean();
+
+		await Wallet.findOneAndUpdate(
+			{ userClerkId: userId },
+			{
+				balance: (wallet.balance += potToDelete.total),
+			},
+		);
 
 		revalidatePath('/pots');
 

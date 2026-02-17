@@ -56,7 +56,7 @@ export default function AddMoney({
 				toast.error(res?.error);
 			} else {
 				toast.success(
-					`${Number(values.amount).toLocaleString()} added to ${capitalizeWords(pot.name)}`,
+					`$${Number(values.amount).toLocaleString()} added to ${capitalizeWords(pot.name)}`,
 				);
 				onClose();
 				form.reset();
@@ -69,6 +69,8 @@ export default function AddMoney({
 	const amount = useWatch({ control: form.control, name: 'amount' });
 	const newSaved = (Number(amount) / pot.target) * 100;
 	const overallSaved = totalSaved + newSaved;
+
+	const newAmount = (pot?.total as number) + Number(amount);
 
 	useEffect(() => {
 		const total = Number(amount) + (pot.total ?? 0);
@@ -94,7 +96,7 @@ export default function AddMoney({
 				<div className='flex items-center justify-between'>
 					<p className='text-preset-4 text-grey-500'>New Amount</p>
 					<h3 className='text-grey-900 font-bold text-preset-1'>
-						${((pot?.total as number) + Number(amount)).toFixed(2)}
+						${newAmount > pot.target ? pot.target : newAmount.toFixed(2)}
 					</h3>
 				</div>
 			</div>

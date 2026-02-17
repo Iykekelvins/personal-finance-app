@@ -74,7 +74,10 @@ export default function Pot({ pot }: { pot: PotProps }) {
 			<div className='mt-400 flex items-center gap-200'>
 				<Dialog open={openAddMoneyModal} onOpenChange={setOpenAddMoneyModal}>
 					<DialogTrigger asChild>
-						<Button variant={'secondary'} className='w-1/2'>
+						<Button
+							variant={'secondary'}
+							className='w-1/2'
+							disabled={pot.total === pot.target}>
 							+ Add Money
 						</Button>
 					</DialogTrigger>
@@ -82,11 +85,14 @@ export default function Pot({ pot }: { pot: PotProps }) {
 				</Dialog>
 				<Dialog open={openWithdrawModal} onOpenChange={setOpenWithdrawModal}>
 					<DialogTrigger asChild>
-						<Button variant={'secondary'} className='w-1/2'>
+						<Button
+							variant={'secondary'}
+							className='w-1/2'
+							disabled={pot.total === 0}>
 							Withdraw
 						</Button>
 					</DialogTrigger>
-					<Withdraw pot={pot} />
+					<Withdraw pot={pot} onClose={() => setOpenWithdrawModal(false)} />
 				</Dialog>
 			</div>
 		</div>
