@@ -2,9 +2,13 @@ import { auth } from '@clerk/nextjs/server';
 
 import Pot from '@/models/pots';
 import PotComp from './pot';
+import connectDB from '@/lib/db';
 
 export default async function PotList() {
 	const { userId } = await auth();
+
+	await connectDB();
+
 	const pots = await Pot.find({ userClerkId: userId });
 
 	return (

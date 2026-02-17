@@ -1,12 +1,11 @@
-import NewBudget from '@/components/modals/new-budget';
+import AddBudget from './add-budget';
+import BudgetList from './budget-list';
 
 const Budgets = () => {
 	return (
 		<div className='py-400 px-500'>
-			<div className='flex items-center justify-between'>
-				<h1 className='text-preset-2 md:text-preset-1 font-bold'>Budgets</h1>
-				<NewBudget />
-			</div>
+			<AddBudget />
+			<BudgetList />
 		</div>
 	);
 };

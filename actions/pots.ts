@@ -108,7 +108,7 @@ export async function editPot(pot: PotProps) {
 
 		return {
 			success: true,
-			status: 201,
+			status: 200,
 		};
 	} catch (error) {
 		console.error('Error editing pot', error);

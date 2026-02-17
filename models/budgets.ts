@@ -9,6 +9,7 @@ const budgetSchema = new mongoose.Schema(
 			enum: CATEGORIES,
 		},
 		maximum: { type: Number },
+		spent: { type: Number },
 		theme: { type: String },
 	},
 	{
