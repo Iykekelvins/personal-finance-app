@@ -30,9 +30,9 @@ import { Input } from '@/components/ui/input';
 import { THEMES } from '@/lib/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { z } from 'zod';
 import { createPot, editPot } from '@/actions/pots';
 import { capitalizeWords } from '@/lib/utils';
+import { z } from 'zod';
 
 const potFormSchema = z.object({
 	name: z.string().min(1, { message: "can't be empty" }).max(30),
@@ -99,9 +99,7 @@ export default function NewPot({
 	}, [pot, form]);
 
 	useEffect(() => {
-		return () => {
-			form.reset();
-		};
+		return () => form.reset();
 	}, [form]);
 
 	return (
@@ -146,7 +144,12 @@ export default function NewPot({
 							<FormItem>
 								<FormLabel>Target</FormLabel>
 								<FormControl>
-									<Input {...field} isCurrency placeholder='e.g. 2000' />
+									<Input
+										{...field}
+										isCurrency
+										placeholder='e.g. 2000'
+										type='number'
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>

@@ -78,7 +78,7 @@ export default function Pot({ pot }: { pot: PotProps }) {
 							+ Add Money
 						</Button>
 					</DialogTrigger>
-					<AddMoney pot={pot} />
+					<AddMoney pot={pot} onClose={() => setOpenAddMoneyModal(false)} />
 				</Dialog>
 				<Dialog open={openWithdrawModal} onOpenChange={setOpenWithdrawModal}>
 					<DialogTrigger asChild>

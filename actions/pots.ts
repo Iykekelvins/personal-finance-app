@@ -6,6 +6,7 @@ import { UNATHORIZED } from '@/lib/constants';
 
 import connectDB from '@/lib/db';
 import Pot from '@/models/pots';
+import Wallet from '@/models/wallets';
 
 export async function createPot(pot: PotProps) {
 	try {
@@ -112,6 +113,69 @@ export async function editPot(pot: PotProps) {
 	} catch (error) {
 		console.error('Error editing pot', error);
 		return { success: false, error: 'Failed to edit pot' };
+	}
+}
+
+export async function addMoneyToPot({
+	_id,
+	amount,
+}: {
+	_id: string;
+	amount: number;
+}) {
+	try {
+		const { userId } = await auth();
+
+		if (!userId) {
+			return UNATHORIZED;
+		}
+
+		await connectDB();
+
+		const wallet = await Wallet.findOne({ userClerkId: userId }).lean();
+
+		if (wallet.balance < amount) {
+			return {
+				success: false,
+				status: 400,
+				error: 'Your balance is insufficient for this transaction',
+			};
+		}
+
+		const pot = await Pot.findOne({ _id, userClerkId: userId }).lean();
+		const canAdd = pot.total + amount;
+
+		if (canAdd > pot.target) {
+			return {
+				success: false,
+				status: 400,
+				error: 'You cannot exceed your target',
+			};
+		}
+
+		await Pot.findOneAndUpdate(
+			{ _id, userClerkId: userId },
+			{
+				total: (pot.total += amount),
+			},
+		);
+
+		await Wallet.findOneAndUpdate(
+			{ userClerkId: userId },
+			{
+				balance: (wallet.balance -= amount),
+			},
+		);
+
+		revalidatePath('/pots');
+
+		return {
+			success: true,
+			status: 200,
+		};
+	} catch (error) {
+		console.error('Error adding money to pot', error);
+		return { success: false, error: 'Failed to add money to pot' };
 	}
 }
 
