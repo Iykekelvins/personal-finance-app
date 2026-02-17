@@ -1,4 +1,5 @@
 import { currentUser } from '@clerk/nextjs/server';
+import { getOverview } from '@/actions/overview';
 
 import connectDB from '@/lib/db';
 import User from '@/models/users';
@@ -21,5 +22,7 @@ export default async function Home() {
 		dbUser = newUser.toObject();
 	}
 
-	return <Overview />;
+	const overview = await getOverview();
+
+	return <Overview overview={JSON.parse(JSON.stringify(overview))} />;
 }

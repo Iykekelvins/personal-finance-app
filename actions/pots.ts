@@ -2,15 +2,10 @@
 
 import { auth } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
+import { UNATHORIZED } from '@/lib/constants';
 
 import connectDB from '@/lib/db';
 import Pot from '@/models/pots';
-
-const UNATHORIZED = {
-	success: false,
-	error: 'Unauthorized',
-	status: 401,
-};
 
 export async function createPot(pot: PotProps) {
 	try {

@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Overview = () => {
+const Overview = ({ overview }: { overview: OverviewData }) => {
+	console.log(overview);
+
 	return <div>Overview</div>;
 };
 

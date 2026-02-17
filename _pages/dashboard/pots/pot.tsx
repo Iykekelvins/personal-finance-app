@@ -4,14 +4,20 @@ import { useState } from 'react';
 import { Popover, PopoverTrigger } from '@/components/ui/popover';
 import { Ellipsis } from 'lucide-react';
 import { THEMES } from '@/lib/constants';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 import PotOptions from './pot-options';
+import AddMoney from '@/components/modals/pots/add-money';
+import Withdraw from '@/components/modals/pots/withdraw';
 
 export default function Pot({ pot }: { pot: PotProps }) {
 	const color = THEMES.find((t) => t.name === pot.theme)?.color;
 	const totalSaved = ((pot?.total as number) / pot.target) * 100;
 
 	const [openPotOptions, setOpenPotOptions] = useState(false);
+	const [openWithdrawModal, setOpenWithdrawModal] = useState(false);
+	const [openAddMoneyModal, setOpenAddMoneyModal] = useState(false);
 
 	return (
 		<div className='bg-white rounded-150 p-300'>
@@ -63,6 +69,25 @@ export default function Pot({ pot }: { pot: PotProps }) {
 						Target of ${pot.target.toLocaleString()}
 					</p>
 				</div>
+			</div>
+
+			<div className='mt-400 flex items-center gap-200'>
+				<Dialog open={openAddMoneyModal} onOpenChange={setOpenAddMoneyModal}>
+					<DialogTrigger asChild>
+						<Button variant={'secondary'} className='w-1/2'>
+							+ Add Money
+						</Button>
+					</DialogTrigger>
+					<AddMoney pot={pot} />
+				</Dialog>
+				<Dialog open={openWithdrawModal} onOpenChange={setOpenWithdrawModal}>
+					<DialogTrigger asChild>
+						<Button variant={'secondary'} className='w-1/2'>
+							Withdraw
+						</Button>
+					</DialogTrigger>
+					<Withdraw pot={pot} />
+				</Dialog>
 			</div>
 		</div>
 	);

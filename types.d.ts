@@ -6,3 +6,12 @@ type PotProps = {
 	total?: number;
 	userClerkId?: string;
 };
+
+type OverviewData = {
+	data: {
+		wallet: {
+			balance: number;
+			expenses: number;
+		};
+	};
+};

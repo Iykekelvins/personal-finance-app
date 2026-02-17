@@ -53,3 +53,9 @@ export const THEMES = [
 		name: 'Blue',
 	},
 ];
+
+export const UNATHORIZED = {
+	success: false,
+	error: 'Unauthorized',
+	status: 401,
+};
