@@ -61,7 +61,7 @@ function DialogContent({
 					'bg-white data-[state=open]:animate-in data-[state=closed]:animate-out',
 					'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95',
 					'data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-140',
-					'translate-x-[-50%] translate-y-[-50%] gap-4 rounded-150 p-8 duration-200',
+					'translate-x-[-50%] translate-y-[-50%] gap-4 rounded-150 p-8 duration-200 w-[95%] md:w-full',
 					'outline-none',
 					className,
 				)}
