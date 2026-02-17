@@ -13,5 +13,9 @@ type OverviewData = {
 			balance: number;
 			expenses: number;
 		};
+		pots: {
+			totalSaved: number;
+			pot_list: PotProps[];
+		};
 	};
 };

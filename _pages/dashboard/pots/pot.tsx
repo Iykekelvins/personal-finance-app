@@ -3,16 +3,16 @@
 import { useState } from 'react';
 import { Popover, PopoverTrigger } from '@/components/ui/popover';
 import { Ellipsis } from 'lucide-react';
-import { THEMES } from '@/lib/constants';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { getThemeColor } from '@/lib/utils';
 
 import PotOptions from './pot-options';
 import AddMoney from '@/components/modals/pots/add-money';
 import Withdraw from '@/components/modals/pots/withdraw';
 
 export default function Pot({ pot }: { pot: PotProps }) {
-	const color = THEMES.find((t) => t.name === pot.theme)?.color;
+	const color = getThemeColor(pot.theme);
 	const totalSaved = ((pot?.total as number) / pot.target) * 100;
 
 	const [openPotOptions, setOpenPotOptions] = useState(false);

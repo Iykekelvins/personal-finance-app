@@ -7,7 +7,7 @@ export default function Cards({
 	};
 }) {
 	return (
-		<div className='mt-400 grid md:grid-cols-2 gap-150 md:gap-300'>
+		<div className='grid sm:grid-cols-2 gap-150 sm:gap-300'>
 			<div className='bg-grey-900 rounded-150 p-300 text-white'>
 				<h2 className='text-preset-4'>Current Balance</h2>
 				<p className='text-preset-1 font-bold leading-[1.2] mt-150'>

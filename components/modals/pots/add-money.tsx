@@ -15,8 +15,7 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { THEMES } from '@/lib/constants';
-import { capitalizeWords } from '@/lib/utils';
+import { capitalizeWords, getThemeColor } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -26,7 +25,7 @@ const formSchema = z.object({
 });
 
 export default function AddMoney({ pot }: { pot: PotProps }) {
-	const color = THEMES.find((t) => t.name === pot.theme)?.color;
+	const color = getThemeColor(pot.theme);
 	const totalSaved = ((pot?.total as number) / pot.target) * 100;
 
 	return (
