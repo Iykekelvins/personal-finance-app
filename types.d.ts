@@ -9,6 +9,11 @@ type OverviewData = {
 			pot_list: PotProps[];
 		};
 		transactions: TransactionProps[];
+		budgets: {
+			totalSpent: number;
+			totalLimit: number;
+			budget_list: BudgetProps[];
+		};
 	};
 };
 

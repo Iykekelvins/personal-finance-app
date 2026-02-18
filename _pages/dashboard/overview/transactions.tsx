@@ -1,10 +1,10 @@
 'use client';
 
 import { useUser } from '@clerk/nextjs';
+import { cn } from '@/lib/utils';
 
 import SeeDetails from '@/components/see-details';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
 
 export default function Transactions({
 	transactions,

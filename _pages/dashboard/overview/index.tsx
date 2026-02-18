@@ -15,7 +15,7 @@ const Overview = ({ overview }: { overview: OverviewData }) => {
 					<Transactions transactions={overview.data.transactions} />
 				</div>
 				<div className='space-y-300'>
-					<Budgets />
+					<Budgets budgets={overview.data.budgets} />
 				</div>
 			</div>
 		</div>
