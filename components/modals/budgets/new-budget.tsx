@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
 	DialogContent,
@@ -28,6 +29,7 @@ import { Input } from '@/components/ui/input';
 import { CATEGORIES, THEMES } from '@/lib/constants';
 import { createBudget, editBudget } from '@/actions/budgets';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { capitalizeWords } from '@/lib/utils';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -39,11 +41,15 @@ const budgetFormSchema = z.object({
 
 export default function NewBudget({
 	budget,
+	open,
 	onClose,
 }: {
 	budget?: BudgetProps;
+	open: boolean;
 	onClose: () => void;
 }) {
+	const [categories, setCategories] = useState<string[]>([]);
+
 	const form = useForm<z.infer<typeof budgetFormSchema>>({
 		resolver: zodResolver(budgetFormSchema),
 		defaultValues: {
@@ -85,14 +91,36 @@ export default function NewBudget({
 		}
 	}
 
+	useEffect(() => {
+		if (!budget) return;
+
+		form.reset({
+			category: capitalizeWords(budget.category),
+			maximum: budget.maximum.toString(),
+			theme: budget.theme,
+		});
+	}, [budget, form]);
+
+	useEffect(() => {
+		fetch('/api/budgets')
+			.then((res) => res.json())
+			.then((data) =>
+				setCategories(
+					data?.categories.map((cat: { category: string }) => cat.category),
+				),
+			);
+	}, [open]);
+
 	return (
 		<DialogContent>
 			<DialogHeader>
-				<DialogTitle>Add New Budget</DialogTitle>
+				<DialogTitle>{!budget ? 'Add New' : 'Edit'} Budget</DialogTitle>
 			</DialogHeader>
 			<DialogDescription>
-				Choose a category to set a spending budget. These categories can help you
-				monitor spending.
+				{!budget
+					? `Choose a category to set a spending budget. These categories can help you
+				monitor spending.`
+					: 'As your budgets change, feel free to update your spending limits.'}
 			</DialogDescription>
 
 			<Form {...form}>
@@ -105,14 +133,20 @@ export default function NewBudget({
 								<FormLabel>Budget Category</FormLabel>
 								<Select onValueChange={field.onChange} defaultValue={field.value}>
 									<FormControl>
-										<SelectTrigger>
+										<SelectTrigger className='[&_.used]:hidden'>
 											<SelectValue placeholder='Select a category' />
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent align='start'>
 										{CATEGORIES.map((cat) => (
-											<SelectItem key={cat} value={cat}>
-												{cat}
+											<SelectItem
+												key={cat}
+												value={cat}
+												disabled={categories.includes(cat)}>
+												<span>{cat}</span>
+												{categories.includes(cat) && (
+													<span className='absolute right-2 used'>already used</span>
+												)}
 											</SelectItem>
 										))}
 									</SelectContent>
@@ -168,7 +202,7 @@ export default function NewBudget({
 					/>
 					<Button className='w-full' disabled={form.formState.isSubmitting}>
 						{form.formState.isSubmitting && <Spinner />}
-						Add Budget
+						{!budget ? 'Add Budget' : 'Save Changes'}
 					</Button>
 				</form>
 			</Form>

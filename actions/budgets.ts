@@ -93,6 +93,14 @@ export async function editBudget(budget: BudgetProps) {
 			};
 		}
 
+		if (budgetExists.spent > maximum) {
+			return {
+				success: false,
+				error: "Your maximum spend can't be less than your total spend",
+				status: 400,
+			};
+		}
+
 		await Budget.findOneAndUpdate(
 			{ _id: budget._id, userClerkId: userId },
 			{
@@ -111,5 +119,40 @@ export async function editBudget(budget: BudgetProps) {
 	} catch (error) {
 		console.error('Error editing budget', error);
 		return { success: false, error: 'Failed to edit budget' };
+	}
+}
+
+export async function deleteBudget(id: string) {
+	try {
+		const { userId } = await auth();
+
+		if (!userId) {
+			return UNATHORIZED;
+		}
+
+		await connectDB();
+
+		const budgetToDelete = await Budget.findOneAndDelete({
+			_id: id,
+			userClerkId: userId,
+		});
+
+		if (!budgetToDelete) {
+			return {
+				success: false,
+				error: 'Budget may have already been deleted',
+				status: 404,
+			};
+		}
+
+		revalidatePath('/budgets');
+
+		return {
+			success: true,
+			status: 200,
+		};
+	} catch (error) {
+		console.error('Error deleting budget', error);
+		return { success: false, error: 'Failed to delete budget' };
 	}
 }

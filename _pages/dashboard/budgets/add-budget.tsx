@@ -16,7 +16,7 @@ export default function AddBudget() {
 				<DialogTrigger asChild>
 					<Button>+ Add New Budget</Button>
 				</DialogTrigger>
-				<NewBudget onClose={() => setOpenModal(false)} />
+				<NewBudget onClose={() => setOpenModal(false)} open={openModal} />
 			</Dialog>
 		</div>
 	);

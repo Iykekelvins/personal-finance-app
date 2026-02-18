@@ -57,5 +57,5 @@ export const THEMES = [
 export const UNATHORIZED = {
 	success: false,
 	error: 'Unauthorized',
-	status: 401,
+	status: 403,
 };
