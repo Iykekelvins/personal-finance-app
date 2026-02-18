@@ -172,7 +172,7 @@ export async function addMoneyToPot({
 		await Transaction.create({
 			userClerkId: userId,
 			category: 'Savings',
-			name: `${user?.firstName} (You)`,
+			name: `${user?.firstName}`,
 			avatar: '/companies/logo-1.png',
 			amount,
 		});
@@ -235,7 +235,7 @@ export async function withdrawMoneyFromPot({
 		await Transaction.create({
 			userClerkId: userId,
 			category: 'Savings',
-			name: `${user?.firstName} (You)`,
+			name: `${user?.firstName}`,
 			avatar: '/companies/logo-1.png',
 			amount: -amount,
 		});

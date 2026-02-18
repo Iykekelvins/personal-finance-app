@@ -8,6 +8,7 @@ type OverviewData = {
 			totalSaved: number;
 			pot_list: PotProps[];
 		};
+		transactions: TransactionProps[];
 	};
 };
 
@@ -27,4 +28,14 @@ type BudgetProps = {
 	_id?: string;
 	spent?: number;
 	userClerkId?: string;
+};
+
+type TransactionProps = {
+	_id: string;
+	name: string;
+	category: string;
+	avatar: string;
+	amount: number;
+	userClerkId?: string;
+	createdAt: Date;
 };

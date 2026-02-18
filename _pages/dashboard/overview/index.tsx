@@ -1,5 +1,7 @@
+import Budgets from './budgets';
 import Cards from './cards';
 import Pots from './pots';
+import Transactions from './transactions';
 
 const Overview = ({ overview }: { overview: OverviewData }) => {
 	return (
@@ -10,6 +12,10 @@ const Overview = ({ overview }: { overview: OverviewData }) => {
 			<div className='grid des:grid-cols-2 gap-300'>
 				<div className='space-y-300'>
 					<Pots pots={overview.data.pots} />
+					<Transactions transactions={overview.data.transactions} />
+				</div>
+				<div className='space-y-300'>
+					<Budgets />
 				</div>
 			</div>
 		</div>
