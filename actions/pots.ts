@@ -1,12 +1,13 @@
 'use server';
 
-import { auth } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
 import { UNATHORIZED } from '@/lib/constants';
 
 import connectDB from '@/lib/db';
 import Pot from '@/models/pots';
 import Wallet from '@/models/wallets';
+import Transaction from '@/models/transactions';
 
 export async function createPot(pot: PotProps) {
 	try {
@@ -125,6 +126,7 @@ export async function addMoneyToPot({
 }) {
 	try {
 		const { userId } = await auth();
+		const user = await currentUser();
 
 		if (!userId) {
 			return UNATHORIZED;
@@ -167,6 +169,14 @@ export async function addMoneyToPot({
 			},
 		);
 
+		await Transaction.create({
+			userClerkId: userId,
+			category: 'Savings',
+			name: `${user?.firstName} (You)`,
+			avatar: '/companies/logo-1.png',
+			amount,
+		});
+
 		revalidatePath('/pots');
 
 		return {
@@ -188,6 +198,7 @@ export async function withdrawMoneyFromPot({
 }) {
 	try {
 		const { userId } = await auth();
+		const user = await currentUser();
 
 		if (!userId) {
 			return UNATHORIZED;
@@ -220,6 +231,14 @@ export async function withdrawMoneyFromPot({
 				balance: (wallet.balance += amount),
 			},
 		);
+
+		await Transaction.create({
+			userClerkId: userId,
+			category: 'Savings',
+			name: `${user?.firstName} (You)`,
+			avatar: '/companies/logo-1.png',
+			amount: -amount,
+		});
 
 		revalidatePath('/pots');
 
