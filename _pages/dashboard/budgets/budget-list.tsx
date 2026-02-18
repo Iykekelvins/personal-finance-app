@@ -23,7 +23,7 @@ export default async function BudgetList() {
 
 	return (
 		<div className='mt-400 grid des:grid-cols-2 gap-300'>
-			<Summary />
+			<Summary budgets={budgets} />
 			<ul className='space-y-300'>
 				{budgets.map((budget) => (
 					<BudgetComp key={budget._id} budget={budget} />
