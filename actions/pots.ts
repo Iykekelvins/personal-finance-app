@@ -1,6 +1,6 @@
 'use server';
 
-import { auth, currentUser } from '@clerk/nextjs/server';
+import { auth } from '@clerk/nextjs/server';
 import { revalidatePath } from 'next/cache';
 import { UNATHORIZED } from '@/lib/constants';
 
@@ -126,7 +126,6 @@ export async function addMoneyToPot({
 }) {
 	try {
 		const { userId } = await auth();
-		const user = await currentUser();
 
 		if (!userId) {
 			return UNATHORIZED;
@@ -172,7 +171,7 @@ export async function addMoneyToPot({
 		await Transaction.create({
 			userClerkId: userId,
 			category: 'Savings',
-			name: `${user?.firstName}`,
+			name: 'Pot Top-up',
 			avatar: '/companies/logo-1.png',
 			amount,
 		});
@@ -198,7 +197,6 @@ export async function withdrawMoneyFromPot({
 }) {
 	try {
 		const { userId } = await auth();
-		const user = await currentUser();
 
 		if (!userId) {
 			return UNATHORIZED;
@@ -235,7 +233,7 @@ export async function withdrawMoneyFromPot({
 		await Transaction.create({
 			userClerkId: userId,
 			category: 'Savings',
-			name: `${user?.firstName}`,
+			name: 'Pot Withdrawal',
 			avatar: '/companies/logo-1.png',
 			amount: -amount,
 		});

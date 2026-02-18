@@ -1,6 +1,3 @@
-'use client';
-
-import { useUser } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
 
 import SeeDetails from '@/components/see-details';
@@ -11,7 +8,6 @@ export default function Transactions({
 }: {
 	transactions: TransactionProps[];
 }) {
-	const user = useUser();
 	return (
 		<div className='bg-white rounded-150 py-300 px-250 sm:p-400'>
 			<div className='flex items-center justify-between'>
@@ -36,10 +32,7 @@ export default function Transactions({
 								alt={`Avatar for ${transaction.name}`}
 							/>
 							<p className='text-preset-4 font-bold leading-normal'>
-								{transaction.name}{' '}
-								<span className='text-preset-5'>
-									{user.user?.firstName === transaction.name ? '(you)' : ''}
-								</span>
+								{transaction.name}
 							</p>
 						</div>
 
@@ -47,7 +40,8 @@ export default function Transactions({
 							<p
 								className={`text-preset-4 font-bold ${transaction.amount > 0 ? 'text-green' : ''}`}>
 								{transaction.amount > 0 ? '+' : ''}$
-								{transaction.amount.toFixed(2).toLocaleString()}
+								{transaction.amount.toLocaleString()}.
+								{transaction.amount.toFixed(2).slice(-2)}
 							</p>
 							<p className='text-preset-5 text-grey-500'>
 								{new Date(transaction.createdAt).toLocaleDateString('en-GB', {

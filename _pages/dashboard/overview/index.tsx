@@ -1,3 +1,4 @@
+import AddMoney from './add-money';
 import Budgets from './budgets';
 import Cards from './cards';
 import Pots from './pots';
@@ -6,7 +7,10 @@ import Transactions from './transactions';
 const Overview = ({ overview }: { overview: OverviewData }) => {
 	return (
 		<div className='px-200 py-300 md:px-500 md:py-400 des:px-500 space-y-400 pb-20'>
-			<h1 className='text-preset-1 font-bold leading-[1.2]'>Overview</h1>
+			<div className='flex items-center justify-between'>
+				<h1 className='text-preset-1 font-bold leading-[1.2]'>Overview</h1>
+				<AddMoney />
+			</div>
 
 			<Cards wallet={overview.data.wallet} />
 			<div className='grid des:grid-cols-2 gap-300'>

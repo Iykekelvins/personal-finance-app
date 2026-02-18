@@ -35,7 +35,8 @@ export default function Budgets({
 									{capitalizeWords(budget.category)}
 								</h3>
 								<p className='text-preset-4 font-bold'>
-									${budget.maximum.toFixed(2).toLocaleString()}
+									${budget.maximum.toLocaleString()}.
+									{budget.maximum.toFixed(2).slice(-2)}
 								</p>
 							</div>
 						</li>
