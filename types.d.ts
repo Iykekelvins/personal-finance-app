@@ -41,7 +41,7 @@ type TransactionProps = {
 	category: string;
 	avatar: string;
 	amount: number;
-	userClerkId?: string;
+	userClerkId: string;
 	createdAt: Date;
 };
 
@@ -58,3 +58,33 @@ type TransactionsData = {
 	transactions: TransactionProps[];
 	pagination: Pagination;
 };
+
+type BillProps = {
+	userClerkId: string;
+	title: string;
+	avatar: string;
+	amount: number;
+	dayOfMonth: number;
+	status: string;
+};
+
+type BillsData = {
+	bills: BillProps[];
+	total_bills: number;
+	bill_summary: {
+		paid: {
+			total: number;
+			amount: number;
+		};
+		upcoming: {
+			total: number;
+			amount: number;
+		};
+		due: {
+			total: number;
+			amount: number;
+		};
+	};
+};
+
+type SortOption = 'latest' | 'oldest' | 'a_to_z' | 'z_to_a' | 'highest' | 'lowest';

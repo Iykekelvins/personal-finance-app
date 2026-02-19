@@ -6,8 +6,6 @@ import { auth } from '@clerk/nextjs/server';
 import connectDB from '@/lib/db';
 import Transaction from '@/models/transactions';
 
-type SortOption = 'latest' | 'oldest' | 'a_to_z' | 'z_to_a' | 'highest' | 'lowest';
-
 interface GetTransactionsParams {
 	sort?: SortOption;
 	category?: string;

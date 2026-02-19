@@ -6,8 +6,6 @@ export const metadata: Metadata = {
 	title: 'Transactions',
 };
 
-type SortOption = 'latest' | 'oldest' | 'a_to_z' | 'z_to_a' | 'highest' | 'lowest';
-
 interface TransactionsPageProps {
 	searchParams: Promise<{
 		sort?: SortOption;
