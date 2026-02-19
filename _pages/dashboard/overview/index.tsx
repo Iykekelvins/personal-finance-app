@@ -6,7 +6,10 @@ import Transactions from './transactions';
 
 const Overview = ({ overview }: { overview: OverviewData }) => {
 	return (
-		<div className='px-200 py-300 md:px-500 md:py-400 des:px-500 space-y-400 pb-20'>
+		<div
+			className='px-200 py-300 md:px-500 md:py-400 des:px-500 space-y-400 pb-20
+		md:pb-30
+		'>
 			<div className='flex items-center justify-between'>
 				<h1 className='text-preset-1 font-bold leading-[1.2]'>Overview</h1>
 				<AddMoney />
