@@ -1,5 +1,8 @@
 'use client';
 
+import { useEffect, useState, useTransition, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import {
 	Select,
@@ -9,19 +12,104 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { CATEGORIES, SORT_OPTIONS } from '@/lib/constants';
-import { cn, formatAmount, formatDate } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn, formatAmount, formatDate } from '@/lib/utils';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import Pagination from './pagination';
 
 export default function Table({
-	transactions,
+	transactionsData,
+	currentSort,
+	currentPage,
+	currentSearch,
+	currentCategory,
 }: {
-	transactions: TransactionProps[];
+	transactionsData: TransactionsData;
+	currentPage: number;
+	currentSort: string;
+	currentSearch: string;
+	currentCategory: string;
 }) {
-	const [sortValue, setSortValue] = useState('latest');
-	const [categoryValue, setCategoryValue] = useState('all');
+	const searchParams = useSearchParams();
+	const router = useRouter();
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [isPending, startTransition] = useTransition();
+
+	const [searchValue, setSearchValue] = useState(currentSearch ?? '');
+	const [sortValue, setSortValue] = useState(currentSort ?? 'latest');
+	const [categoryValue, setCategoryValue] = useState(currentCategory ?? 'all');
+
+	const updateURL = useCallback(
+		(
+			newSearch?: string,
+			newSort?: string,
+			newCategory?: string,
+			newPage?: number,
+		) => {
+			const params = new URLSearchParams(searchParams);
+
+			if (newSearch) {
+				params.set('search', newSearch);
+			} else {
+				params.delete('search');
+			}
+
+			if (newSort) {
+				params.set('sort', newSort);
+			} else {
+				params.delete('sort');
+			}
+
+			if (newCategory && newCategory !== 'all') {
+				params.set('category', newCategory);
+			} else {
+				params.delete('category');
+			}
+
+			if (newPage && newPage > 1) {
+				params.set('page', newPage.toString());
+			} else {
+				params.delete('page');
+			}
+
+			startTransition(() => {
+				router.push(`/transactions?${params.toString()}`, { scroll: false });
+			});
+		},
+		[searchParams, router],
+	);
+
+	const handleSortChange = (sort: string) => {
+		setSortValue(sort);
+		updateURL(searchValue.trim() || undefined, sort, categoryValue, 1);
+	};
+
+	const handleCategoryChange = (category: string) => {
+		setCategoryValue(category);
+		updateURL(searchValue.trim() || undefined, sortValue, category, 1);
+	};
+
+	const handlePageChange = (page: number) => {
+		updateURL(searchValue.trim() || undefined, sortValue, categoryValue, page);
+	};
+
+	const clearFilters = () => {
+		setSearchValue('');
+		setCategoryValue('all');
+		setSortValue('latest');
+		updateURL(undefined, undefined, undefined, 1);
+	};
+
+	useEffect(() => {
+		const delayedSearch = setTimeout(() => {
+			if (searchValue.trim() !== (currentSearch || '')) {
+				updateURL(searchValue.trim() || undefined, sortValue, categoryValue, 1);
+			}
+		}, 500);
+		return () => clearTimeout(delayedSearch);
+	}, [searchValue, categoryValue, sortValue, currentSearch, updateURL]);
 
 	return (
 		<div>
@@ -29,6 +117,10 @@ export default function Table({
 				<Input
 					className='lg:w-[20rem]'
 					placeholder='Search transaction'
+					id='search'
+					name='search'
+					value={searchValue}
+					onChange={(e) => setSearchValue(e.target.value)}
 					icon={<SearchIcon className='size-4' />}
 				/>
 
@@ -37,7 +129,7 @@ export default function Table({
 						<p className='text-grey-500 text-preset-4 hidden md:block whitespace-nowrap'>
 							Sort by
 						</p>
-						<Select value={sortValue} onValueChange={setSortValue}>
+						<Select value={sortValue} onValueChange={handleSortChange}>
 							<SelectTrigger className='border-grey-500! hidden md:flex'>
 								<SelectValue />
 							</SelectTrigger>
@@ -49,7 +141,7 @@ export default function Table({
 								))}
 							</SelectContent>
 						</Select>
-						<Select value={sortValue} onValueChange={setSortValue}>
+						<Select value={sortValue} onValueChange={handleSortChange}>
 							<SelectTrigger className='md:hidden border-0 p-0 [&_.claret]:hidden'>
 								<svg
 									width='20'
@@ -75,7 +167,7 @@ export default function Table({
 
 					<div className='flex items-center gap-2'>
 						<p className='text-grey-500 text-preset-4 hidden md:block'>Category</p>
-						<Select value={categoryValue} onValueChange={setCategoryValue}>
+						<Select value={categoryValue} onValueChange={handleCategoryChange}>
 							<SelectTrigger className='border-grey-500! hidden md:flex'>
 								<SelectValue />
 							</SelectTrigger>
@@ -86,9 +178,11 @@ export default function Table({
 										{category}
 									</SelectItem>
 								))}
+								<SelectItem value='Top Up'>Top Up</SelectItem>
+								<SelectItem value='Savings'>Savings</SelectItem>
 							</SelectContent>
 						</Select>
-						<Select value={categoryValue} onValueChange={setCategoryValue}>
+						<Select value={categoryValue} onValueChange={handleCategoryChange}>
 							<SelectTrigger className='border-grey-500! border-0 p-0 md:hidden [&_.claret]:hidden'>
 								<svg
 									width='20'
@@ -109,11 +203,30 @@ export default function Table({
 										{category}
 									</SelectItem>
 								))}
+								<SelectItem value='Top Up'>Top Up</SelectItem>
+								<SelectItem value='Savings'>Savings</SelectItem>
 							</SelectContent>
 						</Select>
 					</div>
+
+					{searchParams.size > 0 && (
+						<Button
+							variant={'outline'}
+							onClick={clearFilters}
+							className='h-11.25 hidden lg:block'>
+							Clear Filters
+						</Button>
+					)}
 				</div>
 			</div>
+			{searchParams.size > 0 && (
+				<Button
+					variant={'outline'}
+					onClick={clearFilters}
+					className='h-11.25 mt-150 w-full md:w-fit lg:hidden'>
+					Clear Filters
+				</Button>
+			)}
 
 			<div className='w-full mt-300 overflow-x-auto hidden md:block'>
 				<table className='w-full border-collapse'>
@@ -146,13 +259,13 @@ export default function Table({
 						</tr>
 					</thead>
 					<tbody>
-						{transactions.map((transaction, i) => (
+						{transactionsData.transactions.map((transaction, i) => (
 							<tr
 								key={transaction._id}
 								className={cn(
 									'[&_td]:pb-200 [&_td]:pt-300 [&_td]:text-preset-5',
 									i !== 0 && '[&_td]:pt-200',
-									i !== transactions.length - 1 &&
+									i !== transactionsData.transactions.length - 1 &&
 										'[&_td]:border-b [&_td]:border-b-grey-100 [&_td]:border-solid',
 								)}>
 								<td className='pl-200'>
@@ -191,13 +304,13 @@ export default function Table({
 			</div>
 
 			<ul className='md:hidden space-y-200 mt-300'>
-				{transactions.map((transaction, i) => (
+				{transactionsData.transactions.map((transaction, i) => (
 					<li
 						key={transaction._id}
 						className={cn(
 							'flex items-center justify-between',
 							'pb-200',
-							i !== transactions.length - 1 &&
+							i !== transactionsData.transactions.length - 1 &&
 								'border-b border-b-grey-100 border-solid',
 						)}>
 						<div className='flex items-center gap-150'>
@@ -235,6 +348,12 @@ export default function Table({
 					</li>
 				))}
 			</ul>
+
+			<Pagination
+				totalPages={transactionsData.pagination.totalPages}
+				currentPage={currentPage}
+				onPageChange={handlePageChange}
+			/>
 		</div>
 	);
 }

@@ -19,19 +19,27 @@ interface TransactionsPageProps {
 
 const Transactionspage = async ({ searchParams }: TransactionsPageProps) => {
 	const params = await searchParams;
-	const page = Number(params.page) || 1;
-	const sort = params.sort;
-	const search = params.search;
-	const category = params.category;
+	const currentPage = Number(params.page) || 1;
+	const currentSort = params.sort;
+	const currentSearch = params.search;
+	const currentCategory = params.category;
 
 	const transactionsData = (await getTransactions({
-		page,
-		sort,
-		category,
-		search,
+		page: currentPage,
+		sort: currentSort,
+		category: currentCategory,
+		search: currentSearch,
 	})) as TransactionsData;
 
-	return <Transactions transactionsData={transactionsData} />;
+	return (
+		<Transactions
+			transactionsData={transactionsData}
+			currentCategory={currentCategory!}
+			currentPage={currentPage!}
+			currentSearch={currentSearch!}
+			currentSort={currentSort!}
+		/>
+	);
 };
 
 export default Transactionspage;
