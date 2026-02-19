@@ -58,8 +58,10 @@ export default function AddMoney({
 				toast.success(
 					`$${Number(values.amount).toLocaleString()} added to ${capitalizeWords(pot.name)}`,
 				);
-				onClose();
 				form.reset();
+				setTimeout(() => {
+					onClose();
+				}, 150);
 			}
 		} catch (error) {
 			console.error(error);
@@ -85,7 +87,7 @@ export default function AddMoney({
 	}, [amount, pot.total, pot.target, form]);
 
 	return (
-		<DialogContent>
+		<DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
 			<DialogTitle>Add to ‘{capitalizeWords(pot.name)}’</DialogTitle>
 			<DialogDescription>
 				Add money to your pot to keep it separate from your main balance. As soon as

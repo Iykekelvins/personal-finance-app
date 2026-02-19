@@ -68,8 +68,10 @@ export default function NewBudget({
 					toast.error(res?.error);
 				} else {
 					toast.success('Budget created successfully');
-					onClose();
 					form.reset();
+					setTimeout(() => {
+						onClose();
+					}, 150);
 				}
 			} else {
 				const res = await editBudget({
@@ -82,8 +84,10 @@ export default function NewBudget({
 					toast.error(res?.error);
 				} else {
 					toast.success('Budget edited successfully');
-					onClose();
 					form.reset();
+					setTimeout(() => {
+						onClose();
+					}, 150);
 				}
 			}
 		} catch (error) {
@@ -112,7 +116,7 @@ export default function NewBudget({
 	}, [open]);
 
 	return (
-		<DialogContent>
+		<DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
 			<DialogHeader>
 				<DialogTitle>{!budget ? 'Add New' : 'Edit'} Budget</DialogTitle>
 			</DialogHeader>

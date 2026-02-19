@@ -65,8 +65,10 @@ export default function NewPot({
 					toast.error(res?.error);
 				} else {
 					toast.success('Pot created successfully');
-					onClose();
-					form.reset();
+					setTimeout(() => {
+						onClose();
+						form.reset();
+					}, 150);
 				}
 			} else {
 				const res = await editPot({
@@ -79,8 +81,10 @@ export default function NewPot({
 					toast.error(res?.error);
 				} else {
 					toast.success('Pot edited successfully');
-					onClose();
-					form.reset();
+					setTimeout(() => {
+						onClose();
+						form.reset();
+					}, 150);
 				}
 			}
 		} catch (error) {
@@ -103,7 +107,7 @@ export default function NewPot({
 	}, [form]);
 
 	return (
-		<DialogContent>
+		<DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
 			<DialogHeader>
 				<DialogTitle>{!pot ? 'Add New' : 'Edit'} Pot</DialogTitle>
 			</DialogHeader>

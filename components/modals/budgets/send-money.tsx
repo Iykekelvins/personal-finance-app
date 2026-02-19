@@ -65,8 +65,10 @@ export default function SendMoney({
 				toast.error(res.error);
 			} else {
 				toast.success('Transfer is successful');
-				onClose();
 				form.reset();
+				setTimeout(() => {
+					onClose();
+				}, 150);
 			}
 		} catch (error) {
 			console.error(error);
@@ -74,7 +76,7 @@ export default function SendMoney({
 	}
 
 	return (
-		<DialogContent>
+		<DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
 			<DialogTitle>Spend from ‘{capitalizeWords(budget.category)}’</DialogTitle>
 			<DialogDescription>
 				Send money from this budget. This will be deducted from your main balance.

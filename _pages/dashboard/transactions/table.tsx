@@ -107,7 +107,7 @@ export default function Table({
 			if (searchValue.trim() !== (currentSearch || '')) {
 				updateURL(searchValue.trim() || undefined, sortValue, categoryValue, 1);
 			}
-		}, 500);
+		}, 150);
 		return () => clearTimeout(delayedSearch);
 	}, [searchValue, categoryValue, sortValue, currentSearch, updateURL]);
 

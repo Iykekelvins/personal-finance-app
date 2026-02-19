@@ -133,7 +133,7 @@ export async function addMoneyToPot({
 
 		await connectDB();
 
-		const wallet = await Wallet.findOne({ userClerkId: userId }).lean();
+		const wallet = await Wallet.findOne({ userClerkId: userId });
 
 		if (wallet.balance < amount) {
 			return {
@@ -143,7 +143,7 @@ export async function addMoneyToPot({
 			};
 		}
 
-		const pot = await Pot.findOne({ _id, userClerkId: userId }).lean();
+		const pot = await Pot.findOne({ _id, userClerkId: userId });
 		const canAdd = pot.total + amount;
 
 		if (canAdd > pot.target) {
@@ -204,9 +204,9 @@ export async function withdrawMoneyFromPot({
 
 		await connectDB();
 
-		const wallet = await Wallet.findOne({ userClerkId: userId }).lean();
+		const wallet = await Wallet.findOne({ userClerkId: userId });
 
-		const pot = await Pot.findOne({ _id, userClerkId: userId }).lean();
+		const pot = await Pot.findOne({ _id, userClerkId: userId });
 
 		if (amount > pot.total) {
 			return {
@@ -273,7 +273,7 @@ export async function deletePot(id: string) {
 			};
 		}
 
-		const wallet = await Wallet.findOne({ userClerkId: userId }).lean();
+		const wallet = await Wallet.findOne({ userClerkId: userId });
 
 		await Wallet.findOneAndUpdate(
 			{ userClerkId: userId },

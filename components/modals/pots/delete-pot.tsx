@@ -26,7 +26,9 @@ export default function DeletePot({
 				toast.error(res?.error);
 			} else {
 				toast.success('Pot deleted successfully');
-				onClose();
+				setTimeout(() => {
+					onClose();
+				}, 150);
 			}
 		} catch (error) {
 			console.log(error);
@@ -36,7 +38,7 @@ export default function DeletePot({
 	};
 
 	return (
-		<DialogContent>
+		<DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
 			<DialogTitle>Delete ‘{pot?.name}’?</DialogTitle>
 			<DialogDescription>
 				Are you sure you want to delete this pot? This action cannot be reversed, and

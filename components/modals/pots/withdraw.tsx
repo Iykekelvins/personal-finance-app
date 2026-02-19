@@ -57,8 +57,10 @@ export default function Withdraw({
 				toast.success(
 					`$${Number(values.amount).toLocaleString()} has been withdrawn from ${capitalizeWords(pot.name)}`,
 				);
-				onClose();
 				form.reset();
+				setTimeout(() => {
+					onClose();
+				}, 150);
 			}
 		} catch (error) {
 			console.error(error);
@@ -83,7 +85,7 @@ export default function Withdraw({
 	}, [amount, pot.total, form]);
 
 	return (
-		<DialogContent>
+		<DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
 			<DialogTitle>Withdraw from ‘{capitalizeWords(pot.name)}’</DialogTitle>
 			<DialogDescription>
 				Withdraw from your pot to put money back in your main balance. This will

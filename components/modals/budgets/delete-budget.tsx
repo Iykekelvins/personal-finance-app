@@ -26,7 +26,9 @@ export default function DeleteBudget({
 				toast.error(res?.error);
 			} else {
 				toast.success('Budget deleted successfully');
-				onClose();
+				setTimeout(() => {
+					onClose();
+				}, 150);
 			}
 		} catch (error) {
 			console.log(error);
@@ -36,7 +38,7 @@ export default function DeleteBudget({
 	};
 
 	return (
-		<DialogContent>
+		<DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
 			<DialogTitle>Delete ‘{budget?.category}’?</DialogTitle>
 			<DialogDescription>
 				Are you sure you want to delete this budget? This action cannot be reversed,

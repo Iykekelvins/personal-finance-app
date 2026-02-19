@@ -40,8 +40,10 @@ export default function WalletTopup({ onClose }: { onClose: () => void }) {
 				toast.error(res.error);
 			} else {
 				toast.success('Wallet top up successful');
-				onClose();
 				form.reset();
+				setTimeout(() => {
+					onClose();
+				}, 150);
 			}
 		} catch (error) {
 			console.error(error);
@@ -49,7 +51,7 @@ export default function WalletTopup({ onClose }: { onClose: () => void }) {
 	}
 
 	return (
-		<DialogContent>
+		<DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
 			<DialogTitle>Wallet Top Up</DialogTitle>
 			<DialogDescription>Add money to your wallet balance.</DialogDescription>
 
