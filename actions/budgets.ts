@@ -181,6 +181,7 @@ export async function sendMoney({ id, name, amount, avatar }: SendMoney) {
 			{ userClerkId: userId },
 			{
 				balance: (wallet.balance -= amount),
+				expenses: (wallet.expenses += amount),
 			},
 		);
 
