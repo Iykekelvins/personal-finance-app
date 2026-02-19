@@ -137,7 +137,7 @@ export default function NewBudget({
 											<SelectValue placeholder='Select a category' />
 										</SelectTrigger>
 									</FormControl>
-									<SelectContent align='start'>
+									<SelectContent align='start' className='min-w-64'>
 										{CATEGORIES.map((cat) => (
 											<SelectItem
 												key={cat}

@@ -6,6 +6,7 @@ import { PopoverContent } from '@/components/ui/popover';
 
 import NewBudget from '@/components/modals/budgets/new-budget';
 import DeleteBudget from '@/components/modals/budgets/delete-budget';
+import SendMoney from '@/components/modals/budgets/send-money';
 
 export default function BudgetOptions({
 	budget,
@@ -16,13 +17,30 @@ export default function BudgetOptions({
 }) {
 	const [openEditBudgetModal, setOpenEditBudgetModal] = useState(false);
 	const [openDeleteBudgetModal, setOpenDeleteBudgetModal] = useState(false);
+	const [openSendMoneyModal, setOpenSendMoneyModal] = useState(false);
 
 	return (
 		<PopoverContent align='end' className='grid py-150 px-250'>
-			<Dialog open={openEditBudgetModal} onOpenChange={setOpenEditBudgetModal}>
+			<Dialog open={openSendMoneyModal} onOpenChange={setOpenSendMoneyModal}>
 				<DialogTrigger asChild>
 					<button
 						className='text-preset-4 pb-3 border-b 
+                border-b-grey-100 border-solid leading-normal text-left'>
+						Send Money
+					</button>
+				</DialogTrigger>
+				<SendMoney
+					budget={budget}
+					onClose={() => {
+						setOpenSendMoneyModal(false);
+						setOpenBudgetOptions(false);
+					}}
+				/>
+			</Dialog>
+			<Dialog open={openEditBudgetModal} onOpenChange={setOpenEditBudgetModal}>
+				<DialogTrigger asChild>
+					<button
+						className='text-preset-4 py-3 border-b 
                 border-b-grey-100 border-solid leading-normal text-left'>
 						Edit Pot
 					</button>
