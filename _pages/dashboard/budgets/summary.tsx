@@ -2,7 +2,7 @@ import { getThemeColor } from '@/lib/utils';
 
 export default function Summary({ budgets }: { budgets: BudgetProps[] }) {
 	return (
-		<div className='bg-white rounded-150 py-300 px-250 md:p-400'>
+		<div className='bg-white rounded-150 py-300 px-250 md:p-400 h-max des:sticky top-10'>
 			{/* pie chart */}
 
 			<div className='mt-400'>
