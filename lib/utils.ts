@@ -19,3 +19,15 @@ export function capitalizeWords(value: string): string {
 export function getThemeColor(color: string) {
 	return THEMES.find((t) => t.name === color)?.color;
 }
+
+export function formatDate(date: Date | string) {
+	return new Date(date).toLocaleDateString('en-GB', {
+		day: 'numeric',
+		month: 'short',
+		year: 'numeric',
+	});
+}
+
+export function formatAmount(amount: number) {
+	return `${amount.toLocaleString()}.${amount.toFixed(2).slice(-2)}`;
+}

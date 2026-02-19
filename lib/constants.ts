@@ -59,3 +59,30 @@ export const UNATHORIZED = {
 	error: 'Unauthorized',
 	status: 403,
 };
+
+export const SORT_OPTIONS = [
+	{
+		name: 'Latest',
+		value: 'latest',
+	},
+	{
+		name: 'Oldest',
+		value: 'oldest',
+	},
+	{
+		name: 'A to Z',
+		value: 'a_to_z',
+	},
+	{
+		name: 'Z to A',
+		value: 'z_to_a',
+	},
+	{
+		name: 'Highest',
+		value: 'highest',
+	},
+	{
+		name: 'Lowest',
+		value: 'lowest',
+	},
+];

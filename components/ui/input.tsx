@@ -7,8 +7,12 @@ function Input({
 	className,
 	type,
 	isCurrency,
+	icon,
 	...props
-}: React.ComponentProps<'input'> & { isCurrency?: boolean }) {
+}: React.ComponentProps<'input'> & {
+	isCurrency?: boolean;
+	icon?: React.ReactNode;
+}) {
 	const [showPassword, setShowPassword] = React.useState(false);
 
 	return (
@@ -44,6 +48,7 @@ function Input({
 					)}
 				</button>
 			)}
+			{icon && <span className='absolute right-5'>{icon}</span>}
 		</div>
 	);
 }

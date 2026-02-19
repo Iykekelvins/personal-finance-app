@@ -35,7 +35,7 @@ function SelectTrigger({
 			data-slot='select-trigger'
 			data-size={size}
 			className={cn(
-				"border-beige-500 data-placeholder:text-beige-500 focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-red/20 dark:aria-invalid:ring-red/40 aria-invalid:border-red dark:bg-input/30 dark:hover:bg-input/50 flex w-fukk items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap transition-[color,box-shadow] outline-none focus-visible:ring-[1px] disabled:cursor-not-allowed disabled:opacity-50 h-11.25 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+				"border-beige-500 data-placeholder:text-beige-500 focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-red/20 dark:aria-invalid:ring-red/40 aria-invalid:border-red  flex w-full items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap transition-[color,box-shadow] outline-none lg:focus-visible:ring-[1px] disabled:cursor-not-allowed disabled:opacity-50 h-11.25 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
 				className,
 			)}
 			{...props}>
@@ -46,7 +46,8 @@ function SelectTrigger({
 					height='16'
 					viewBox='0 0 16 16'
 					fill='none'
-					xmlns='http://www.w3.org/2000/svg'>
+					xmlns='http://www.w3.org/2000/svg'
+					className='claret'>
 					<path
 						d='M13.3537 6.35375L8.35366 11.3538C8.30722 11.4002 8.25207 11.4371 8.19138 11.4623C8.13068 11.4874 8.06561 11.5004 7.99991 11.5004C7.9342 11.5004 7.86913 11.4874 7.80844 11.4623C7.74774 11.4371 7.69259 11.4002 7.64616 11.3538L2.64616 6.35375C2.57615 6.28382 2.52847 6.1947 2.50914 6.09765C2.48982 6.00061 2.49972 5.90002 2.53759 5.8086C2.57547 5.71719 2.63962 5.63908 2.72191 5.58414C2.80421 5.5292 2.90096 5.49992 2.99991 5.5L12.9999 5.5C13.0989 5.49992 13.1956 5.5292 13.2779 5.58414C13.3602 5.63908 13.4243 5.71719 13.4622 5.8086C13.5001 5.90002 13.51 6.00061 13.4907 6.09765C13.4713 6.1947 13.4237 6.28382 13.3537 6.35375Z'
 						fill='#201F24'
@@ -60,7 +61,7 @@ function SelectTrigger({
 function SelectContent({
 	className,
 	children,
-	position = 'item-aligned',
+	position = 'popper',
 	align = 'center',
 	...props
 }: React.ComponentProps<typeof SelectPrimitive.Content>) {
@@ -82,7 +83,7 @@ function SelectContent({
 					className={cn(
 						'p-1',
 						position === 'popper' &&
-							'h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1',
+							'h-[(--radix-select-trigger-height)] w-full min-w-[(--radix-select-trigger-width)] scroll-my-1',
 					)}>
 					{children}
 				</SelectPrimitive.Viewport>

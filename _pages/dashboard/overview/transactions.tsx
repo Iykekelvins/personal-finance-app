@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn, formatAmount, formatDate } from '@/lib/utils';
 
 import SeeDetails from '@/components/see-details';
 import Image from 'next/image';
@@ -39,16 +39,15 @@ export default function Transactions({
 						<div className='text-right space-y-100'>
 							<p
 								className={`text-preset-4 font-bold ${transaction.amount > 0 ? 'text-green' : ''}`}>
-								{transaction.amount > 0 ? '+' : ''}$
-								{transaction.amount.toLocaleString()}.
-								{transaction.amount.toFixed(2).slice(-2)}
+								{transaction.amount > 0 ? '+' : '-'}$
+								{formatAmount(
+									transaction.amount < 0
+										? Number(transaction.amount.toLocaleString().slice(1))
+										: transaction.amount,
+								)}
 							</p>
 							<p className='text-preset-5 text-grey-500'>
-								{new Date(transaction.createdAt).toLocaleDateString('en-GB', {
-									day: 'numeric',
-									month: 'short',
-									year: 'numeric',
-								})}
+								{formatDate(transaction.createdAt)}
 							</p>
 						</div>
 					</li>

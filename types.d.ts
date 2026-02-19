@@ -44,3 +44,17 @@ type TransactionProps = {
 	userClerkId?: string;
 	createdAt: Date;
 };
+
+type Pagination = {
+	total: number;
+	page: number;
+	limit: number;
+	totalPages: number;
+	hasNextPage: boolean;
+	hasPrevPage: boolean;
+};
+
+type TransactionsData = {
+	transactions: TransactionProps[];
+	pagination: Pagination;
+};
