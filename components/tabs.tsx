@@ -39,7 +39,7 @@ export default function Tabs() {
 
 	return (
 		<div
-			className='fixed bottom-0 left-0 w-full bg-grey-900 lg:hidden
+			className='fixed bottom-0 left-0 w-full bg-grey-900 des:hidden
       rounded-t-lg pt-100 px-200 md:px-500
       '>
 			<ul className='flex items-center justify-between md:gap-x-10.5'>
