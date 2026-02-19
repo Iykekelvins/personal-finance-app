@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function SeeDetails({ href }: { href: string }) {
+export default function SeeDetails({ href, text }: { href: string; text?: string }) {
 	return (
 		<Link
 			href={href}
@@ -8,7 +8,7 @@ export default function SeeDetails({ href }: { href: string }) {
     [&_svg_path]:transition-all [&_svg_path]:duration-300 [&_svg_path]:ease-in-out
     hover:text-grey-900 hover:[&_svg_path]:fill-grey-900 flex items-center gap-150
     '>
-			<span>See Details</span>
+			<span>See {text ?? 'Details'}</span>
 			<svg
 				width='12'
 				height='12'
