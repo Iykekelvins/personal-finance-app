@@ -263,10 +263,10 @@ export default function Table({
 							<tr
 								key={transaction._id}
 								className={cn(
-									'[&_td]:pb-200 [&_td]:pt-300 [&_td]:text-preset-5',
+									'[&_td]:pt-300 [&_td]:text-preset-5',
 									i !== 0 && '[&_td]:pt-200',
 									i !== transactionsData.transactions.length - 1 &&
-										'[&_td]:border-b [&_td]:border-b-grey-100 [&_td]:border-solid',
+										'[&_td]:border-b [&_td]:border-b-grey-100 [&_td]:border-solid [&_td]:pb-200',
 								)}>
 								<td className='pl-200'>
 									<div className='flex items-center gap-200'>
@@ -309,9 +309,8 @@ export default function Table({
 						key={transaction._id}
 						className={cn(
 							'flex items-center justify-between',
-							'pb-200',
 							i !== transactionsData.transactions.length - 1 &&
-								'border-b border-b-grey-100 border-solid',
+								'border-b border-b-grey-100 border-solid pb-200',
 						)}>
 						<div className='flex items-center gap-150'>
 							<Image

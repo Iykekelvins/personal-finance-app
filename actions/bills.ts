@@ -16,8 +16,8 @@ export async function getBills({ sort, search }: GetBillsParams) {
 	const sortOptions: Record<SortOption, Record<string, 1 | -1>> = {
 		latest: { dayOfMonth: -1 },
 		oldest: { dayOfMonth: 1 },
-		a_to_z: { name: 1 },
-		z_to_a: { name: -1 },
+		a_to_z: { title: 1 },
+		z_to_a: { title: -1 },
 		highest: { amount: -1 },
 		lowest: { amount: 1 },
 	};
@@ -33,7 +33,7 @@ export async function getBills({ sort, search }: GetBillsParams) {
 			userClerkId: userId,
 		};
 
-		if (search) match.name = { $regex: search, $options: 'i' };
+		if (search) match.title = { $regex: search, $options: 'i' };
 		const sortKey: SortOption = sort && sort in sortOptions ? sort : 'latest';
 
 		const bills = await Bill.aggregate([

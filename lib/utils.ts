@@ -31,3 +31,21 @@ export function formatDate(date: Date | string) {
 export function formatAmount(amount: number) {
 	return `${amount.toLocaleString()}.${amount.toFixed(2).slice(-2)}`;
 }
+
+const getDueDate = (dayOfMonth: number) => {
+	const now = new Date();
+	return new Date(now.getFullYear(), now.getMonth(), dayOfMonth);
+};
+
+export const getBillStatus = (bill: BillProps) => {
+	const due = getDueDate(bill.dayOfMonth);
+	const now = new Date();
+	const daysUntilDue = Math.ceil(
+		(due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+	);
+
+	if (bill.status === 'paid') return 'paid';
+	if (daysUntilDue < 0) return 'overdue';
+	if (daysUntilDue <= 3) return 'due soon';
+	return 'pending';
+};

@@ -23,7 +23,13 @@ const RecurringBillspage = async ({ searchParams }: BillsPageProps) => {
 		sort: currentSort,
 	})) as BillsData;
 
-	return <RecurringBills billsData={billsData} />;
+	return (
+		<RecurringBills
+			billsData={billsData}
+			currentSearch={currentSearch!}
+			currentSort={currentSort!}
+		/>
+	);
 };
 
 export default RecurringBillspage;
