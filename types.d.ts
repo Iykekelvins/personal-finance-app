@@ -60,12 +60,13 @@ type TransactionsData = {
 };
 
 type BillProps = {
-	userClerkId: string;
 	title: string;
 	avatar: string;
 	amount: number;
 	dayOfMonth: number;
-	status: string;
+	_id?: string;
+	userClerkId?: string;
+	status?: string;
 };
 
 type BillsData = {

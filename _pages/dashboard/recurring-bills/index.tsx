@@ -1,3 +1,4 @@
+import AddBill from './add-bill';
 import Summary from './summary';
 import TotalBills from './total-bills';
 
@@ -8,6 +9,7 @@ const RecurringBills = ({ billsData }: { billsData: BillsData }) => {
 			md:pb-30'>
 			<div className='flex items-center justify-between'>
 				<h1 className='text-preset-1 font-bold'>Recurring Bills</h1>
+				<AddBill />
 			</div>
 
 			<div className='flex items-start justify-between'>

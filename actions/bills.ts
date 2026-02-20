@@ -2,6 +2,7 @@
 
 import { UNATHORIZED } from '@/lib/constants';
 import { auth } from '@clerk/nextjs/server';
+import { revalidatePath } from 'next/cache';
 
 import connectDB from '@/lib/db';
 import Bill from '@/models/bills';
@@ -93,5 +94,120 @@ export async function getBills({ sort, search }: GetBillsParams) {
 	} catch (error) {
 		console.error('[getBills]', error);
 		throw new Error('Failed to fetch bills');
+	}
+}
+
+export async function createBill(bill: BillProps) {
+	try {
+		const { userId } = await auth();
+
+		if (!userId) return UNATHORIZED;
+
+		await connectDB();
+
+		const billExists = await Bill.findOne({
+			userClerkId: userId,
+			title: bill.title,
+		});
+
+		if (billExists) {
+			return {
+				success: false,
+				error: 'You already have this bill',
+				status: 400,
+			};
+		}
+
+		if (bill.dayOfMonth > 31) {
+			return {
+				success: false,
+				error: "Bill monthly date can't exceed the days of the month",
+				status: 400,
+			};
+		}
+
+		await Bill.create({
+			...bill,
+			userClerkId: userId,
+			status: 'pending',
+		});
+
+		revalidatePath('/recurring-bills');
+
+		return {
+			success: true,
+			status: 201,
+		};
+	} catch (error) {
+		console.error('Error creating bill', error);
+		return { success: false, error: 'Failed to create bill' };
+	}
+}
+
+export async function editBill(bill: BillProps) {
+	try {
+		const { userId } = await auth();
+
+		if (!userId) return UNATHORIZED;
+
+		await connectDB();
+
+		await Bill.findOneAndUpdate(
+			{
+				userClerkId: userId,
+				_id: bill._id,
+			},
+			{
+				title: bill.title,
+				avatar: bill.avatar,
+				amount: bill.amount,
+				dayOfMonth: bill.dayOfMonth,
+			},
+		);
+
+		revalidatePath('/recurring-bills');
+
+		return {
+			success: true,
+			status: 200,
+		};
+	} catch (error) {
+		console.error('Error editing bill', error);
+		return { success: false, error: 'Failed to edit bill' };
+	}
+}
+
+export async function deleteBill(id: string) {
+	try {
+		const { userId } = await auth();
+
+		if (!userId) {
+			return UNATHORIZED;
+		}
+
+		await connectDB();
+
+		const billToDelete = await Bill.findOneAndDelete({
+			_id: id,
+			userClerkId: userId,
+		});
+
+		if (!billToDelete) {
+			return {
+				success: false,
+				error: 'Bill may have already been deleted',
+				status: 404,
+			};
+		}
+
+		revalidatePath('/recurring-bills');
+
+		return {
+			success: true,
+			status: 200,
+		};
+	} catch (error) {
+		console.error('Error deleting bill', error);
+		return { success: false, error: 'Failed to delete bill' };
 	}
 }

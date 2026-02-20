@@ -1,10 +1,12 @@
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { createBill, editBill } from '@/actions/bills';
 import {
 	DialogContent,
 	DialogDescription,
 	DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '../../ui/button';
+import { Button } from '../ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import {
 	Form,
@@ -15,7 +17,6 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { capitalizeWords } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
 	Select,
@@ -25,22 +26,22 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { sendMoney } from '@/actions/budgets';
 import { z } from 'zod';
 
 import Image from 'next/image';
 
 const formSchema = z.object({
 	amount: z.string().min(1, { message: "can't be empty" }),
-	name: z.string().min(1, { message: "can't be empty" }),
+	dayOfMonth: z.string().min(1, { message: "can't be empty" }),
+	title: z.string().min(1, { message: "can't be empty" }),
 	avatar: z.string().min(1, { message: "can't be empty" }),
 });
 
-export default function SendMoney({
-	budget,
+export default function NewBill({
+	bill,
 	onClose,
 }: {
-	budget: BudgetProps;
+	bill?: BillProps;
 	onClose: () => void;
 }) {
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -48,50 +49,82 @@ export default function SendMoney({
 		defaultValues: {
 			amount: '',
 			avatar: '',
-			name: '',
+			title: '',
+			dayOfMonth: '',
 		},
 	});
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		try {
-			const res = await sendMoney({
-				id: budget._id as string,
-				amount: +values.amount,
-				name: values.name,
-				avatar: values.avatar,
-			});
+			if (!bill) {
+				const res = await createBill({
+					...values,
+					amount: +values.amount,
+					dayOfMonth: +values.dayOfMonth,
+				});
 
-			if (!res.success) {
-				toast.error(res.error);
+				if (!res.success) {
+					toast.error(res?.error);
+				} else {
+					toast.success('Bill created successfully');
+					form.reset();
+					setTimeout(() => {
+						onClose();
+					}, 150);
+				}
 			} else {
-				toast.success('Transfer successful');
-				form.reset();
-				setTimeout(() => {
-					onClose();
-				}, 150);
+				const res = await editBill({
+					...values,
+					_id: bill._id,
+					amount: +values.amount,
+					dayOfMonth: +values.dayOfMonth,
+				});
+
+				if (!res.success) {
+					toast.error(res?.error);
+				} else {
+					toast.success('Bill edited successfully');
+					form.reset();
+					setTimeout(() => {
+						onClose();
+					}, 150);
+				}
 			}
 		} catch (error) {
 			console.error(error);
 		}
 	}
 
+	useEffect(() => {
+		if (!bill) return;
+
+		form.reset({
+			title: bill.title,
+			amount: bill.amount.toString(),
+			dayOfMonth: bill.dayOfMonth.toString(),
+			avatar: bill.avatar,
+		});
+	}, [bill, form]);
+
 	return (
 		<DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
-			<DialogTitle>Spend from ‘{capitalizeWords(budget.category)}’</DialogTitle>
+			<DialogTitle>{!bill ? 'Add' : 'Edit'} Bill</DialogTitle>
 			<DialogDescription>
-				Send money from this budget. This will be deducted from your main balance.
+				{!bill
+					? 'Add a recurring bill and input the day its due monthly.'
+					: 'Edit current recurring bill.'}
 			</DialogDescription>
 
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-200'>
 					<FormField
 						control={form.control}
-						name='name'
+						name='title'
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Person/Company Name</FormLabel>
+								<FormLabel>Bill Title</FormLabel>
 								<FormControl>
-									<Input {...field} placeholder='John Doe' />
+									<Input {...field} placeholder='Netflix' />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -145,10 +178,29 @@ export default function SendMoney({
 					/>
 					<FormField
 						control={form.control}
+						name='dayOfMonth'
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Day of Month</FormLabel>
+								<FormControl>
+									<Input
+										type='number'
+										{...field}
+										placeholder='15'
+										min={1}
+										max={31}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
 						name='amount'
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Amount to Send</FormLabel>
+								<FormLabel>Bill Amount</FormLabel>
 								<FormControl>
 									<Input
 										type='number'
@@ -162,10 +214,9 @@ export default function SendMoney({
 							</FormItem>
 						)}
 					/>
-
 					<Button className='w-full' disabled={form.formState.isSubmitting}>
 						{form.formState.isSubmitting && <Spinner />}
-						<span>Send Money</span>
+						<span>{!bill ? 'Create Bill' : 'Save Changes'}</span>
 					</Button>
 				</form>
 			</Form>

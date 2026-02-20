@@ -74,14 +74,6 @@ export async function editPot(pot: PotProps) {
 
 		const { name, target, theme } = pot;
 
-		if (!name.trim() || !target || !theme) {
-			return {
-				success: false,
-				error: 'Missing name, target or theme',
-				status: 400,
-			};
-		}
-
 		const potExists = await Pot.findOne({
 			userClerkId: userId,
 			name: name.trim().toLowerCase(),
