@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { PopoverContent } from '@/components/ui/popover';
 
-import NewBill from '@/components/modals/new-bill';
+import NewBill from '@/components/modals/bills/new-bill';
+import DeleteBill from '@/components/modals/bills/delete-bill';
 
 export default function BillOptions({ bill }: { bill: BillProps | null }) {
 	const [openEditPotModal, setOpenEditPotModal] = useState(false);
@@ -28,13 +29,7 @@ export default function BillOptions({ bill }: { bill: BillProps | null }) {
 						Delete Bill
 					</button>
 				</DialogTrigger>
-				{/* <DeletePot
-					pot={pot}
-					onClose={() => {
-						setOpenDeletePotModal(false);
-						setOpenPotOptions(false);
-					}}
-				/> */}
+				<DeleteBill bill={bill} onClose={() => setOpenDeletePotModal(false)} />
 			</Dialog>
 		</PopoverContent>
 	);

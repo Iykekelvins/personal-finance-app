@@ -36,8 +36,6 @@ export default function Table({
 	const [searchValue, setSearchValue] = useState(currentSearch ?? '');
 	const [sortValue, setSortValue] = useState(currentSort ?? 'latest');
 
-	const [bill, setBill] = useState<BillProps | null>(null);
-
 	const updateURL = useCallback(
 		(newSearch?: string, newSort?: string) => {
 			const params = new URLSearchParams(searchParams);
@@ -224,7 +222,7 @@ export default function Table({
 								<td className='text-right'>
 									<Popover>
 										<PopoverTrigger asChild>
-											<button onClick={() => setBill(bill)}>
+											<button>
 												<EllipsisIcon className='text-grey-500' />
 											</button>
 										</PopoverTrigger>
@@ -293,15 +291,24 @@ export default function Table({
 								)}
 							</p>
 						</div>
-
-						<p
-							className={cn(
-								'font-bold text-right',
-								getBillStatus(bill) === 'paid' && 'text-green',
-								getBillStatus(bill) === 'due soon' && 'text-red',
-							)}>
-							${formatAmount(bill.amount)}
-						</p>
+						<div className='flex items-center gap-200'>
+							<p
+								className={cn(
+									'font-bold text-right',
+									getBillStatus(bill) === 'paid' && 'text-green',
+									getBillStatus(bill) === 'due soon' && 'text-red',
+								)}>
+								${formatAmount(bill.amount)}
+							</p>
+							<Popover>
+								<PopoverTrigger asChild>
+									<button>
+										<EllipsisIcon className='text-grey-500' />
+									</button>
+								</PopoverTrigger>
+								<BillOptions bill={bill} />
+							</Popover>
+						</div>
 					</li>
 				))}
 			</ul>
