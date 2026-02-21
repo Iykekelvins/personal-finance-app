@@ -1,4 +1,5 @@
 import AddMoney from './add-money';
+import Bills from './bills';
 import Budgets from './budgets';
 import Cards from './cards';
 import Pots from './pots';
@@ -23,6 +24,7 @@ const Overview = ({ overview }: { overview: OverviewData }) => {
 				</div>
 				<div className='space-y-300'>
 					<Budgets budgets={overview.data.budgets} />
+					<Bills bill_summary={overview.data.bill_summary} />
 				</div>
 			</div>
 		</div>

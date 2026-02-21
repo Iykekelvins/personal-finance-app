@@ -8,6 +8,7 @@ import Wallet from '@/models/wallets';
 import Pot from '@/models/pots';
 import Budget from '@/models/budgets';
 import Transaction from '@/models/transactions';
+import Bill from '@/models/bills';
 
 export async function getOverview() {
 	try {
@@ -59,6 +60,46 @@ export async function getOverview() {
 			return (sum += budget.maximum);
 		}, 0);
 
+		// BILLS
+		const bills = await Bill.find({ userClerkId: userId }).lean();
+
+		const now = new Date();
+		const currentMonth = new Date().getMonth();
+
+		const processedBills = bills.map((bill) => {
+			const dueDate = new Date(now.getFullYear(), now.getMonth(), bill.dayOfMonth);
+			const daysUntilDue = Math.ceil(
+				(dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+			);
+			const paidMonth = new Date(bill.updatedAt).getMonth();
+
+			// reset if new month
+			if (bill.status === 'paid' && paidMonth !== currentMonth) {
+				bill.status = 'pending';
+			}
+
+			return {
+				...bill,
+				_id: bill._id.toString(),
+				daysUntilDue,
+				isDueSoon: daysUntilDue <= 3 && daysUntilDue >= 0 && bill.status !== 'paid',
+			};
+		});
+
+		const bill_summary = {
+			paid: processedBills
+				.filter((b) => b.status === 'paid')
+				.reduce((acc, b) => acc + b.amount, 0),
+
+			upcoming: processedBills
+				.filter((b) => b.status !== 'paid' && !b.isDueSoon)
+				.reduce((acc, b) => acc + b.amount, 0),
+
+			due: processedBills
+				.filter((b) => b.isDueSoon)
+				.reduce((acc, b) => acc + b.amount, 0),
+		};
+
 		return {
 			success: true,
 			status: 200,
@@ -74,6 +115,7 @@ export async function getOverview() {
 					totalLimit: overallBudgetLimit,
 					budget_list: budgetsToDisplay,
 				},
+				bill_summary,
 			},
 		};
 	} catch (error) {

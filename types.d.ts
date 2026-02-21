@@ -14,6 +14,11 @@ type OverviewData = {
 			totalLimit: number;
 			budget_list: BudgetProps[];
 		};
+		bill_summary: {
+			paid: number;
+			upcoming: number;
+			due: number;
+		};
 	};
 };
 
