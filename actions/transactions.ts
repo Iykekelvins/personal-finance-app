@@ -5,6 +5,7 @@ import { auth } from '@clerk/nextjs/server';
 
 import connectDB from '@/lib/db';
 import Transaction from '@/models/transactions';
+import { revalidatePath } from 'next/cache';
 
 interface GetTransactionsParams {
 	sort?: SortOption;
@@ -78,3 +79,34 @@ async function getTransactions({
 }
 
 export default getTransactions;
+
+export async function deleteTransaction(id: string) {
+	try {
+		const { userId } = await auth();
+
+		if (!userId) return UNATHORIZED;
+
+		const transaction = await Transaction.findOneAndDelete({
+			userClerkId: userId,
+			_id: id,
+		});
+
+		if (!transaction) {
+			return {
+				success: false,
+				error: 'Transaction may have already been deleted',
+				status: 404,
+			};
+		}
+
+		revalidatePath('/transactions');
+
+		return {
+			success: true,
+			status: 200,
+		};
+	} catch (error) {
+		console.error('Error deleting transaction', error);
+		return { success: false, error: 'Failed to delete transaction' };
+	}
+}

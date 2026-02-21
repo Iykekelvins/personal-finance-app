@@ -148,7 +148,7 @@ export default function Table({
                 '>
 								Amount
 							</th>
-							<th></th>
+							<th className='border-b border-b-grey-100 border-solid'></th>
 						</tr>
 					</thead>
 

@@ -12,12 +12,14 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { CATEGORIES, SORT_OPTIONS } from '@/lib/constants';
-import { SearchIcon } from 'lucide-react';
+import { SearchIcon, EllipsisIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn, formatAmount, formatDate } from '@/lib/utils';
+import { Popover, PopoverTrigger } from '@/components/ui/popover';
 
 import Image from 'next/image';
 import Pagination from './pagination';
+import TransactionOptions from './transaction-options';
 
 export default function Table({
 	transactionsData,
@@ -256,6 +258,7 @@ export default function Table({
                 '>
 								Amount
 							</th>
+							<th className='border-b border-b-grey-100 border-solid'></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -297,6 +300,16 @@ export default function Table({
 											: transaction.amount,
 									)}
 								</td>
+								<td className='text-right'>
+									<Popover>
+										<PopoverTrigger asChild>
+											<button>
+												<EllipsisIcon className='text-grey-500' />
+											</button>
+										</PopoverTrigger>
+										<TransactionOptions id={transaction._id} />
+									</Popover>
+								</td>
 							</tr>
 						))}
 					</tbody>
@@ -328,21 +341,31 @@ export default function Table({
 						</div>
 
 						<div className='text-right'>
-							<p
-								className={cn(
-									'font-bold text-right text-preset-4',
-									transaction.amount > 0 ? 'text-green' : '',
-								)}>
-								{transaction.amount > 0 ? '+' : '-'}$
-								{formatAmount(
-									transaction.amount < 0
-										? Number(transaction.amount.toLocaleString().slice(1))
-										: transaction.amount,
-								)}
-							</p>
-							<p className='text-grey-500 text-preset-5 mt-1'>
-								{formatDate(transaction.createdAt)}
-							</p>
+							<div className='flex items-center gap-200'>
+								<p
+									className={cn(
+										'font-bold text-right text-preset-4',
+										transaction.amount > 0 ? 'text-green' : '',
+									)}>
+									{transaction.amount > 0 ? '+' : '-'}$
+									{formatAmount(
+										transaction.amount < 0
+											? Number(transaction.amount.toLocaleString().slice(1))
+											: transaction.amount,
+									)}
+								</p>
+								<p className='text-grey-500 text-preset-5 mt-1'>
+									{formatDate(transaction.createdAt)}
+								</p>
+							</div>
+							<Popover>
+								<PopoverTrigger asChild>
+									<button>
+										<EllipsisIcon className='text-grey-500' />
+									</button>
+								</PopoverTrigger>
+								<TransactionOptions id={transaction._id} />
+							</Popover>
 						</div>
 					</li>
 				))}
