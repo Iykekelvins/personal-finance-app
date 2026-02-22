@@ -91,13 +91,15 @@ export default async function PotList() {
 						opacity='0.5'
 					/>
 				</svg>
-				<p className='text-preset-2 font-bold'>You don&apos;t have any pots</p>
+				<p className='text-preset-2 font-bold text-center'>
+					You don&apos;t have any pots
+				</p>
 			</div>
 		);
 	}
 
 	return (
-		<ul className='mt-200 grid des:grid-cols-2 gap-300'>
+		<ul className='grid des:grid-cols-2 gap-300'>
 			{pots?.map((pot) => (
 				<PotComp key={pot._id} pot={JSON.parse(JSON.stringify(pot))} />
 			))}

@@ -86,13 +86,15 @@ export default async function BudgetList() {
 					<circle cx='85' cy='35' r='3' fill='#C94736' />
 					<circle cx='35' cy='85' r='3' fill='#C94736' opacity='0.5' />
 				</svg>
-				<p className='text-preset-2 font-bold'>You don&apos;t have any budgets</p>
+				<p className='text-preset-2 font-bold text-center'>
+					You don&apos;t have any budgets
+				</p>
 			</div>
 		);
 	}
 
 	return (
-		<div className='mt-400 grid des:grid-cols-2 gap-300'>
+		<div className='grid des:grid-cols-2 gap-300'>
 			<Summary budgets={budgets} />
 			<ul className='space-y-300'>
 				{budgets.map((budget) => (
