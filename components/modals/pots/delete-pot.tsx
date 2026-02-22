@@ -6,6 +6,7 @@ import { DialogContent, DialogDescription, DialogTitle } from '../../ui/dialog';
 import { Spinner } from '../../ui/spinner';
 import { deletePot } from '@/actions/pots';
 import { toast } from 'sonner';
+import { capitalizeWords } from '@/lib/utils';
 
 export default function DeletePot({
 	pot,
@@ -39,7 +40,7 @@ export default function DeletePot({
 
 	return (
 		<DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
-			<DialogTitle>Delete ‘{pot?.name}’?</DialogTitle>
+			<DialogTitle>Delete ‘{capitalizeWords(pot?.name)}’?</DialogTitle>
 			<DialogDescription>
 				Are you sure you want to delete this pot? This action cannot be reversed, and
 				all the data inside it will be removed forever.

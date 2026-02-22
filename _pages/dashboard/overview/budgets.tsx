@@ -18,31 +18,37 @@ export default function Budgets({
 				<SeeDetails href='/budgets' />
 			</div>
 
-			<div className='flex items-center mt-250'>
-				{/* pie chart here */}
-				<div></div>
-				<ul className='space-y-200'>
-					{budgets.budget_list.map((budget) => (
-						<li key={budget._id} className='flex items-center gap-200'>
-							<span
-								className='w-1 h-10.75 rounded-full'
-								style={{
-									backgroundColor: getThemeColor(budget.theme),
-								}}
-							/>
-							<div className='space-y-1'>
-								<h3 className='text-preset-5 text-grey-500'>
-									{capitalizeWords(budget.category)}
-								</h3>
-								<p className='text-preset-4 font-bold'>
-									${budget.maximum.toLocaleString()}.
-									{budget.maximum.toFixed(2).slice(-2)}
-								</p>
-							</div>
-						</li>
-					))}
-				</ul>
-			</div>
+			{budgets.budget_list.length === 0 ? (
+				<p className='text-preset-3 text-center py-250'>
+					You don&apos;t have any budgets
+				</p>
+			) : (
+				<div className='flex items-center mt-250'>
+					{/* pie chart here */}
+					<div></div>
+					<ul className='space-y-200'>
+						{budgets.budget_list.map((budget) => (
+							<li key={budget._id} className='flex items-center gap-200'>
+								<span
+									className='w-1 h-10.75 rounded-full'
+									style={{
+										backgroundColor: getThemeColor(budget.theme),
+									}}
+								/>
+								<div className='space-y-1'>
+									<h3 className='text-preset-5 text-grey-500'>
+										{capitalizeWords(budget.category)}
+									</h3>
+									<p className='text-preset-4 font-bold'>
+										${budget.maximum.toLocaleString()}.
+										{budget.maximum.toFixed(2).slice(-2)}
+									</p>
+								</div>
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
 		</div>
 	);
 }

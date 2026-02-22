@@ -1,4 +1,4 @@
-import { capitalizeWords, getThemeColor } from '@/lib/utils';
+import { capitalizeWords, cn, getThemeColor } from '@/lib/utils';
 
 import SeeDetails from '@/components/see-details';
 
@@ -18,7 +18,11 @@ export default function Pots({
 			</div>
 
 			<div className='mt-250 grid sm:grid-cols-2 gap-250'>
-				<div className='bg-beige-100 rounded-150 p-200 flex items-center gap-200'>
+				<div
+					className={cn(
+						'bg-beige-100 rounded-150 p-200 flex items-center gap-200',
+						pots.pot_list.length === 0 && 'col-span-2',
+					)}>
 					<svg
 						width='40'
 						height='40'
