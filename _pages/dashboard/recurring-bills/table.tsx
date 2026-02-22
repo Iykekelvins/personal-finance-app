@@ -14,7 +14,7 @@ import {
 import { SORT_OPTIONS } from '@/lib/constants';
 import { EllipsisIcon, SearchIcon } from 'lucide-react';
 import { Popover, PopoverTrigger } from '@/components/ui/popover';
-import { cn, formatAmount, getBillStatus } from '@/lib/utils';
+import { addOrdinalSuffix, cn, formatAmount, getBillStatus } from '@/lib/utils';
 
 import Image from 'next/image';
 import BillOptions from './bill-options';
@@ -182,7 +182,7 @@ export default function Table({
 										getBillStatus(bill) === 'due soon' && 'text-red',
 									)}>
 									<p className='flex items-center gap-2'>
-										<span>Monthly - {bill.dayOfMonth}</span>
+										<span>Monthly - {addOrdinalSuffix(bill.dayOfMonth)}</span>
 										{getBillStatus(bill) === 'paid' && (
 											<svg
 												width='16'
@@ -262,7 +262,9 @@ export default function Table({
 									getBillStatus(bill) === 'paid' && 'text-green',
 									getBillStatus(bill) === 'due soon' && 'text-red',
 								)}>
-								<span className='text-preset-5'>Monthly - {bill.dayOfMonth}</span>
+								<span className='text-preset-5'>
+									Monthly - {addOrdinalSuffix(bill.dayOfMonth)}
+								</span>
 								{getBillStatus(bill) === 'paid' && (
 									<svg
 										width='16'
