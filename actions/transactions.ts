@@ -2,10 +2,10 @@
 
 import { UNATHORIZED } from '@/lib/constants';
 import { auth } from '@clerk/nextjs/server';
+import { revalidatePath } from 'next/cache';
 
 import connectDB from '@/lib/db';
 import Transaction from '@/models/transactions';
-import { revalidatePath } from 'next/cache';
 
 interface GetTransactionsParams {
 	sort?: SortOption;

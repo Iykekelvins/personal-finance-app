@@ -9,14 +9,19 @@ export default function Transactions({
 	transactions: TransactionProps[];
 }) {
 	return (
-		<div className='bg-white rounded-150 py-300 px-250 sm:p-400'>
+		<div
+			className='bg-white rounded-150 py-300 px-250 sm:p-400
+		flex flex-col flex-1
+		'>
 			<div className='flex items-center justify-between'>
 				<h2 className='text-preset-2 font-bold'>Transactions</h2>
 				<SeeDetails href='/transactions' />
 			</div>
 
 			{transactions.length === 0 ? (
-				<p className='text-preset-3 text-center py-250'>No transactions yet</p>
+				<div className='flex flex-col justify-center flex-1'>
+					<p className='text-preset-3 text-center py-250'>No transactions yet</p>
+				</div>
 			) : (
 				<ul className='mt-400 space-y-150'>
 					{transactions.map((transaction, i) => (

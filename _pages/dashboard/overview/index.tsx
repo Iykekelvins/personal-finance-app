@@ -18,7 +18,7 @@ const Overview = ({ overview }: { overview: OverviewData }) => {
 
 			<Cards wallet={overview.data.wallet} />
 			<div className='grid des:grid-cols-2 gap-300'>
-				<div className='space-y-300'>
+				<div className='flex flex-col gap-y-300'>
 					<Pots pots={overview.data.pots} />
 					<Transactions transactions={overview.data.transactions} />
 				</div>
