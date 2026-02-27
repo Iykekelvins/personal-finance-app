@@ -1,5 +1,6 @@
-import SeeDetails from '@/components/see-details';
 import { formatAmount } from '@/lib/utils';
+
+import SeeDetails from '@/components/see-details';
 
 export default function Bills({
 	bill_summary,
@@ -11,7 +12,7 @@ export default function Bills({
 	};
 }) {
 	return (
-		<div className='bg-white rounded-150 py-300 px-250 sm:p-400'>
+		<div className='bg-white rounded-150 py-300 px-250 sm:p-400 flex-1'>
 			<div className='flex items-center justify-between'>
 				<h2 className='text-preset-2 font-bold'>Recurring Bills</h2>
 				<SeeDetails href='/recurring-bills' />

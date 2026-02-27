@@ -22,7 +22,7 @@ const Overview = ({ overview }: { overview: OverviewData }) => {
 					<Pots pots={overview.data.pots} />
 					<Transactions transactions={overview.data.transactions} />
 				</div>
-				<div className='space-y-300'>
+				<div className='flex flex-col gap-y-300'>
 					<Budgets budgets={overview.data.budgets} />
 					<Bills bill_summary={overview.data.bill_summary} />
 				</div>
