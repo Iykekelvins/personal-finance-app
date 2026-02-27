@@ -107,7 +107,7 @@ export function AppSidebar() {
 			<SidebarFooter className='pb-300'>
 				<button
 					className={cn(
-						`flex items-center gap-200 py-200 text-grey-300!
+						`hidden xl:flex items-center gap-200 py-200 text-grey-300!
           transition-colors duration-300 ease-in-out hover:text-grey-100! text-preset-3
           [&_svg_path]:transition-all [&_svg_path]:duration-300 [&_svg_path]:ease-in-out
           hover:[&_svg_path]:fill-grey-100`,
