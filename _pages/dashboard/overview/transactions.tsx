@@ -16,9 +16,7 @@ export default function Transactions({
 			</div>
 
 			{transactions.length === 0 ? (
-				<p className='text-preset-3 text-center py-250'>
-					You don&apos;t have any transactions
-				</p>
+				<p className='text-preset-3 text-center py-250'>No transactions yet</p>
 			) : (
 				<ul className='mt-400 space-y-150'>
 					{transactions.map((transaction, i) => (
