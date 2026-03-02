@@ -39,6 +39,7 @@ function Input({
 			{type === 'password' && (
 				<button
 					type='button'
+					aria-label="Toggle password visibility"
 					className='absolute right-5'
 					onClick={() => setShowPassword(!showPassword)}>
 					{!showPassword ? (
