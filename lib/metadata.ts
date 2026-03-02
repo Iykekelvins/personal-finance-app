@@ -1,0 +1,113 @@
+import { Metadata } from 'next';
+
+const keywords = [
+	'personal finance',
+	'budget tracker',
+	'expense tracking',
+	'savings tracker',
+	'transaction management',
+	'recurring bills',
+	'financial dashboard',
+	'money management',
+	'spending tracker',
+	'savings goals',
+	'finance app',
+	'budgeting app',
+	'expense manager',
+	'personal finance manager',
+	'money tracker',
+	'financial planner',
+	'budget planner',
+	'savings app',
+	'wallet app',
+	'financial control',
+	'budget planning',
+	'expense monitoring',
+	'savings management',
+	'financial goals',
+	'spending habits',
+	'financial organization',
+	'money tracking',
+	'budget control',
+	'MERN stack finance app',
+	'fullstack finance tracker',
+	'budgeting software',
+	'financial tracking tool',
+	'expense management system',
+	'personal budget app',
+	'savings pot tracker',
+	'bill reminder',
+	'financial wellness',
+	'money organizer',
+	'track expenses',
+	'manage budget',
+	'save money',
+	'monitor spending',
+	'plan finances',
+	'organize bills',
+	'set savings goals',
+	'control spending',
+	'budget better',
+	'financial planning',
+];
+
+const title = 'Finance App';
+const description =
+	'Track spending, manage budgets, and grow your savings—all in one place.';
+const url = 'https://finance.iykekelvins.dev';
+
+export const metaDataOptions: Metadata = {
+	generator: 'Next.js',
+	applicationName: 'Finance App',
+	referrer: 'origin-when-cross-origin',
+	keywords,
+	authors: [{ name: 'Kelvin Ochubili', url: 'https://x.com/iykekelvins' }],
+	creator: 'Kelvin Ochubili',
+	publisher: 'Finance App',
+	formatDetection: {
+		email: false,
+		address: false,
+		telephone: false,
+	},
+	openGraph: {
+		title,
+		description,
+		url,
+		siteName: 'Finance App',
+		images: [
+			{
+				url: '/opengraph-image.png',
+				width: 800,
+				height: 600,
+				alt: 'Finance App',
+			},
+			{
+				url: '/opengraph-image.png',
+				width: 1800,
+				height: 1600,
+				alt: 'Finance App',
+			},
+		],
+		locale: 'en_US',
+		type: 'website',
+	},
+	icons: {
+		icon: '/icons/favicon.png',
+		shortcut: '/icons/favicon.png',
+		apple: '/icons/favicon.png',
+		other: {
+			rel: 'apple-touch-icon-precomposed',
+			url: '/icons/favicon.png',
+		},
+	},
+	twitter: {
+		card: 'summary_large_image',
+		title,
+		description,
+		creator: '@iykekelvins',
+		images: {
+			url: '/opengraph-image.png',
+			alt: 'Finance App',
+		},
+	},
+};
