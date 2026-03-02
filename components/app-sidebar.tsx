@@ -9,6 +9,8 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar';
 import { Bills, Budgets, Overview, Pots, Transactions } from './icons';
+import { SignOutButton } from '@clerk/nextjs';
+import { LogOutIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 import Image from 'next/image';
@@ -105,6 +107,20 @@ export function AppSidebar() {
 				</ul>
 			</SidebarContent>
 			<SidebarFooter className='pb-300'>
+				<SignOutButton>
+					<button
+						className={cn(
+							'flex items-center gap-200 py-200 text-grey-300!',
+							`transition-colors duration-300 ease-in-out hover:text-grey-100! text-preset-3
+          [&_svg_path]:transition-all [&_svg_path]:duration-300 [&_svg_path]:ease-in-out
+          hover:[&_svg_path]:stroke-grey-100`,
+							open && 'px-400',
+							!open && 'pl-200',
+						)}>
+						<LogOutIcon color='#B3B3B3' />
+						{open && <span>Logout</span>}
+					</button>
+				</SignOutButton>
 				<button
 					className={cn(
 						`hidden xl:flex items-center gap-200 py-200 text-grey-300!
@@ -112,7 +128,7 @@ export function AppSidebar() {
           [&_svg_path]:transition-all [&_svg_path]:duration-300 [&_svg_path]:ease-in-out
           hover:[&_svg_path]:fill-grey-100`,
 						open && 'px-400',
-						!open && 'justify-center [&_svg]:rotate-180',
+						!open && 'pl-200 [&_svg]:rotate-180',
 					)}
 					onClick={toggleSidebar}>
 					<svg

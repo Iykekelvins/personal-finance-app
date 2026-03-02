@@ -2,6 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 import { Bills, Budgets, Overview, Pots, Transactions } from './icons';
+import { SignOutButton } from '@clerk/nextjs';
+import { LogOutIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 import Link from 'next/link';
@@ -42,7 +44,7 @@ export default function Tabs() {
 			className='fixed bottom-0 left-0 w-full bg-grey-900 des:hidden
       rounded-t-lg pt-100 px-200 md:px-500
       '>
-			<ul className='flex items-center justify-between md:gap-x-10.5'>
+			<ul className='flex items-center justify-between '>
 				{TABLINKS.map((link) => (
 					<li key={link.name} className='flex-1'>
 						<Link
@@ -55,7 +57,7 @@ export default function Tabs() {
 							{link.icon}
 							<span
 								className={cn(
-									'text-preset-5 font-bold text-gray-300 hidden md:block whitespace-nowrap',
+									'text-preset-5! font-bold text-gray-300 hidden md:block whitespace-nowrap',
 									'leading-normal mt-1',
 									link.href === pathname && 'text-grey-900',
 								)}>
@@ -64,6 +66,16 @@ export default function Tabs() {
 						</Link>
 					</li>
 				))}
+				<li className='flex-1'>
+					<SignOutButton>
+						<button className='flex flex-col items-center justify-center rounded-t-lg pt-100 pb-150 w-full'>
+							<LogOutIcon color='#B3B3B3' />
+							<span className='text-preset-5 font-bold text-gray-300 hidden md:block whitespace-nowrap leading-normal mt-1'>
+								Logout
+							</span>
+						</button>
+					</SignOutButton>
+				</li>
 			</ul>
 		</div>
 	);
