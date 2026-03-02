@@ -63,8 +63,6 @@ const SignUp = () => {
 	const router = useRouter();
 
 	async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
-		setIsLoading(true);
-
 		if (!isLoaded) return;
 
 		try {
@@ -84,8 +82,6 @@ const SignUp = () => {
 			if (isClerkAPIResponseError(error)) {
 				toast.error(error.message);
 			}
-		} finally {
-			setIsLoading(false);
 		}
 	}
 
@@ -178,8 +174,8 @@ const SignUp = () => {
 							)}
 						/>
 
-						<Button className='w-full mt-200' disabled={isLoading}>
-							{isLoading && <Spinner />}
+						<Button className='w-full mt-200' disabled={form.formState.isSubmitting}>
+							{form.formState.isSubmitting && <Spinner />}
 							<span>Continue</span>
 						</Button>
 					</form>

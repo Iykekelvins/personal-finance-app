@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import {
 	Form,
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -118,6 +119,13 @@ const SignIn = () => {
 								<FormControl>
 									<Input {...field} type='password' />
 								</FormControl>
+								<FormDescription>
+									<Link
+										href='/forgot-password'
+										className='underline text-preset-4 text-grey-500'>
+										Forgot password?
+									</Link>
+								</FormDescription>
 								<FormMessage />
 							</FormItem>
 						)}
